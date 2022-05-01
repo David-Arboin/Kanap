@@ -56,14 +56,31 @@ console.log(newProduct)
 //Consulter le Local Storage pour savoir s'il contient déjà des produits
     productsInCard = JSON.parse(localStorage.getItem("cart"))
     console.log(productsInCard)
-    console.log(newProduct)
 //---Premier produit dans le local storage
+function addNewProduct () {
+    let ifProductAlreadyPresent = productsInCard.some(product => productsInCard._id === newProduct._id && productsInCard.color === newProduct.color)
+    return ifProductAlreadyPresent;
+}
 
-        if (productsInCard == null) {
-            let productsInCard = []
-            productsInCard.push(newProduct)
-            JSON.stringify(localStorage.setItem("card", productsInCard))
-            console.log(productsInCard)      
 
+function whereIsNewProductInCard () {
+    let newCart = productsInCard.map(product => productsInCard._id === newProduct._id && productsInCard.color === newProduct.color)
+    return newCart;
+}
+
+
+if (productsInCard == null) {
+    let productsInCard = []
+    productsInCard.push(newProduct)
+    console.log(productsInCard) 
+    localStorage.setItem("cart", JSON.stringify(productsInCard))  
+}
+else if (ifProductAlreadyPresent && newCart){
+            productsInCard.quantity = newProduct.quantity
+            localStorage.setItem("cart", JSON.stringify(productsInCard))
         }
-    }
+     else {
+    productsInCard.push(newProduct)
+    localStorage.setItem("cart", JSON.stringify(productsInCard))  
+}
+}
