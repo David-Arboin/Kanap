@@ -37,13 +37,13 @@ const displayPageProduct = async () => {
 displayPageProduct();
 
 //Ecoute du click sur Ajouter au panier
-document.getElementById("addToCart").addEventListener("click", addToCard)
+document.getElementById("addToCart").addEventListener("click", addToCart)
 
 //---Déclration de la fonction de remplissage du locale storage après insertion du premier produit
-function addToCard() {//addToCart
+function addToCart() {//addToCart
 
 //---Récupération des données de la page produit pour les envoyers dans le panier
-    newProduct = {
+    let newProduct = {
     _id : productData._id, 
     color : document.getElementById("colors").value, 
     quantity : document.getElementById("quantity").value,
@@ -54,33 +54,35 @@ function addToCard() {//addToCart
 console.log(newProduct)
 
 //Consulter le Local Storage pour savoir s'il contient déjà des produits
-    productsInCard = JSON.parse(localStorage.getItem("cart"))
-    console.log(productsInCard)
+    let productsInCart = JSON.parse(localStorage.getItem("cart"))
+    console.log(newProduct)
+    console.log(productsInCart)
 //---Premier produit dans le local storage
+
 function addNewProduct () {
-    let ifProductAlreadyPresent = productsInCard.some(product => productsInCard._id === newProduct._id && productsInCard.color === newProduct.color)
-    return ifProductAlreadyPresent;
+    const isProductAlreadyPresent = productsInCart.some(product => productsInCart._id === newProduct._id && productsInCart.color === newProduct.color)
+    console.log(isProductAlreadyPresent)
 }
 
-
-function whereIsNewProductInCard () {
-    let newCart = productsInCard.map(product => productsInCard._id === newProduct._id && productsInCard.color === newProduct.color)
-    return newCart;
+if (productsInCart == null) {
+    let productsInCart = []
+    productsInCart.push(newProduct)
+    console.log(productsInCart) 
+    localStorage.setItem("cart", JSON.stringify(productsInCart))  
 }
-
-
-if (productsInCard == null) {
-    let productsInCard = []
-    productsInCard.push(newProduct)
-    console.log(productsInCard) 
-    localStorage.setItem("cart", JSON.stringify(productsInCard))  
-}
-else if (ifProductAlreadyPresent && newCart){
-            productsInCard.quantity = newProduct.quantity
-            localStorage.setItem("cart", JSON.stringify(productsInCard))
+else if (isProductAlreadyPresent){
+    productsInCart.map(productsInCart => {
+        if (productsInCart._id === newProduct._id && productsInCart.color === newProduct.color){
+            productsInCart.quantity = newProduct.quantity
+            localStorage.setItem("cart", JSON.stringify(productsInCart))  
+            console.log("ok")
         }
-     else {
-    productsInCard.push(newProduct)
-    localStorage.setItem("cart", JSON.stringify(productsInCard))  
+        return productsInCart;
+    })
+}
+else {
+    productsInCart.push(newProduct)
+    console.log(productsInCart) 
+    localStorage.setItem("cart", JSON.stringify(productsInCart))  
 }
 }
