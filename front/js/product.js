@@ -35,8 +35,8 @@ const fetchProduct = async () => {
     await fetch(`http://localhost:3000/api/products/${idProduct}`)
     .then((res) => res.json())
     .then((data) => {
-    productData = data //Ici, productData devient l'élément qui contient les données du produit
-    console.log(productData)
+    productsInCard = data //Ici, productData devient l'élément qui contient les données du produit
+    console.log(productsInCard)
     })
 };
 
@@ -44,21 +44,21 @@ const fetchProduct = async () => {
 const displayPageProduct = async () => {
     await fetchProduct();
 
-    let imgProduct = document.getElementsByClassName("item__img")[0].innerHTML = `<img src="${productData.imageUrl}">`
-    let titleProduct = document.querySelector("h1").innerText = `${productData.name}`
-    let priceProduct = document.getElementById("price").innerText = `${productData.price}`
-    let descriptionProduct = document.getElementById("description").innerText = `${productData.description}`
+    let imgProduct = document.getElementsByClassName("item__img")[0].innerHTML = `<img src="${productsInCard.imageUrl}">`
+    let titleProduct = document.querySelector("h1").innerText = `${productsInCard.name}`
+    let priceProduct = document.getElementById("price").innerText = `${productsInCard.price}`
+    let descriptionProduct = document.getElementById("description").innerText = `${productsInCard.description}`
 
 //--Optionnel--Voir dans la console le nombre de couleur possible
-    console.log(productData.colors.length)
+    console.log(productsInCard.colors.length)
 
 //Boucle de création des choix de couleurs
-    for (let i = 0; i < productData.colors.length; i++){
+    for (let i = 0; i < productsInCard.colors.length; i++){
         let optionColors = document.createElement("option");
         let sectionColors = document.getElementById("colors");
         sectionColors.appendChild(optionColors);
-        optionColors.innerText = `${productData.colors[i]}`
-        optionColors.value = `${productData.colors[i]}`
+        optionColors.innerText = `${productsInCard.colors[i]}`
+        optionColors.value = `${productsInCard.colors[i]}`
     }
 }
 displayPageProduct(); //--Exécution de la fonction displayPageProduct
@@ -71,12 +71,13 @@ function addToCart() {//addToCart
 
 //---Récupération des données de la page produit pour les envoyers dans le panier s'il n'y est pas déjà
     let newProduct = {
-    _id : productData._id, 
+    _id : productsInCard._id, 
     color : document.getElementById("colors").value, 
     quantity : document.getElementById("quantity").value,
-    image : productData.imageUrl,
-    alt : productData.altTxt,
-    name : productData.name
+    image : productsInCard.imageUrl,
+    alt : productsInCard.altTxt,
+    name : productsInCard.name,
+    price : productsInCard.price
 }
 
 //--Si la couleur ou la couleur n'est pas choisie, le client est avertit
