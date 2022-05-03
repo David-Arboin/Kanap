@@ -29,7 +29,8 @@ document.getElementById("cart__items").innerHTML = productsInCart.map((products)
         </div>
     </div>
 </article>`
-)};
+).join("")
+};
 
 panierDisplay();
 
@@ -49,42 +50,85 @@ let displayTotalPrice = () => {
 displayTotalPrice()
 
 //--Mise à jour du prix total lors de la saisie d'une nouvelle quantité depuis les petites flèches
-let newQuantityByArrow = () => {
-    document.getElementById("spin").addEventListener("click", order) = () =>
-    function order() {
-        newQuantity : document.getElementById("spin").value
 
-for (i = 0; i < productsInCart.length; i++) {
+/* let input = document.querySelector('.input')
+let result = document.getElementsByClassName('itemQuantity')
+input.addEventListener('itemQuantity', newQuantity)
+
+    function newQuantity() {
+        console.log("ok")} */
+
+/*         var r2 = el.closest("div div");
+// Renvoie le plus proche ancêtre qui est un div
+// dans un div. Ici, c'est div-03 lui-même. */
+
+/*          newQuantity : document.getElementById("number").value
+
+    for (i = 0; i < productsInCart.length; i++) {
     if (newQuantity != productsInCart[i].quantity) {
         totalPrice = parseInt(totalPrice) + parseInt(productsInCart[i].price)
         console.log(totalPrice)
      }
      displayPrice = document.getElementById("totalPrice")
      displayPrice.innerText = `${totalPrice}`
-     console.log(displayPrice)
-}}}
-newQuantityByArrow()
+     console.log(displayPrice) */
 
-//--Mise à jour de la quantité totale de produit sélectionnés
-/* let updateNumberProductInCartAfterClick = () => {
+//--Suppression d'un produit
+const removeProduct = async (panierDisplay) => {
+    await panierDisplay
+    console.log("salut")
 
-    for (i = 0; i < productsInCart.length; i++) {
-        if (productsInCart[i].color != "" && productsInCart[i].quantity > 0) {
-            numberProductInCart = parseInt(numberProductInCart) + parseInt(productsInCart[i].quantity)
-            console.log(numberProductInCart)
-         }
-         let totalQuantity = document.getElementById("totalQuantity")
-         totalQuantity.innerText = `${numberProductInCart}`
-         console.log(totalQuantity)
-    }
-    }
-updateNumberProductInCartAfterClick() */
+//--Récupérartion de tous les boutons supprimmer
+    let trashs = document.querySelectorAll(".deleteItem")
+    console.log(trashs)
 
-//--Bouton Commander
-//--Si une quantité n'est pas saisie, le client est prévenu
-/* document.getElementById("order").addEventListener("click", order) = productsInCart.map((products) =>
-function order() {
-if (products.quantity == 0){
-    document.getElementById("text-field-container").style.backgroundColor = "green"
+//--Ecoute du clik
+    trashs.forEach((trash) => {trash.addEventListener("click",() => {
+    console.log(trash)
+
+//--Récupérartion des données liées au produit à supprimer
+    let retrieveProductToRemove = trash.closest("article")
+    console.log(retrieveProductToRemove)
+
+//--Récupérartion du nom du produit à supprimer
+    let retrieveNameProductToRemove = retrieveProductToRemove.querySelector("h2").innerText
+    console.log(retrieveNameProductToRemove)
+
+//--Récupérartion de la couleur du produit à supprimer
+    let retrieveColorProductToRemove = retrieveProductToRemove.querySelector("p").innerText
+    console.log(retrieveColorProductToRemove)
+
+//--Nombre de produit dans le panier
+    let totalAddProductRemove = productsInCart.length
+    console.log(totalAddProductRemove)
+//--Si le panier ne contient qu'un produit, on le vide
+    if(totalAddProductRemove == 1){
+
+        let confirmRemouveCard = confirm("Souhaitez-vous vider le panier ?")
+        if (confirmRemouveCard) {
+        localStorage.removeItem("cart"),
+        window.location.href = "cart.html"}
+        }
+//--On conserve les produits du panier non supprimés
+    else {
+        newCart = productsInCart.filter(el => {
+        if (retrieveNameProductToRemove != el.name || retrieveColorProductToRemove != el.color) {
+            return true
+        }
+            })
+            //--Prévenir de la suppression du produit
+        let confirmAction = confirm("Souhaitez-vous retirer ce produit du panier ?")
+        if (confirmAction) {
+            console.log(newCart)
+            localStorage.setItem("cart", JSON.stringify(newCart))
+            console.log("remove le produit en question")
+//-- Rechargement de la page
+            window.location.href = "cart.html"
+        }
+
+        }
+    } )})
+
 }
-}) */
+removeProduct()
+

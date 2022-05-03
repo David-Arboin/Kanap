@@ -1,12 +1,12 @@
-let productData = []; //Déclaration d'un tableau vide
+let productsInCard = []; //Déclaration d'un tableau vide
 
 //Récupération des données de l'URL
 const fetchProducts = async () => {
     await fetch("http://localhost:3000/api/products")
     .then((res) => res.json())
     .then((promise) => {
-        productData = promise
-        console.log(productData);
+        productsInCard = promise
+        console.log(productsInCard);
     });
 };
 
@@ -16,7 +16,7 @@ fetchProducts(); //Execution de la fonctionn
 const productsDisplay = async () => { /*Création de la constante productsDisplay qui pourra s'executer en //*/
     await fetchProducts();/*Informe productsDisplay qu'elle doit attendre la fin de fetchProducts*/
 /*Appele la classe Item, ajoute à l'HTML les produits du tableau*/
-    document.getElementById("items").innerHTML = productData.map((products) => ` 
+    document.getElementById("items").innerHTML = productsInCard.map((products) => ` 
         <a href="product.html?id=${products._id}" target="_blank">
             <article>
                 <img src="${products.imageUrl}" alt="${products.altTxt}">
