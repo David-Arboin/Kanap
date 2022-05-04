@@ -9,24 +9,38 @@ console.log(idProduct);
 //--Informations du panier : Quantité affichée à côté du mot panier dans le Header
 let updateNumberProductInCart = () => {
 
+//--Récupération du panier
 let productsInCart = JSON.parse(localStorage.getItem("cart"))
 console.log(productsInCart)
 let numberProductInCart = 0
-for (i = 0; i < productsInCart.length; i++) {
+
+//--S'il est vide, on l'affiche
+if (productsInCart == null){
+    let displayUpdateCart = () => {
+        let sectionCart = document.getElementsByTagName("ul")[1];
+        let updateInfoCart = document.createElement("p");
+        console.log(updateInfoCart)
+        sectionCart.appendChild(updateInfoCart);
+        updateInfoCart.innerText = ": vide";
+        }
+        displayUpdateCart()
+}
+//--s'il contient des produits, on compte leur nombre
+else for (i = 0; i < productsInCart.length; i++) {
     if (productsInCart[i].color != "" && productsInCart[i].quantity > 0) {
         numberProductInCart = parseInt(numberProductInCart) + parseInt(productsInCart[i].quantity)
         console.log(numberProductInCart)
      }
 }
-//--Affichage du nombre de canapés dans le panier au moment de l'ouverture de la apge
-let displayUpdateCart = () => {
-    let sectionCart = document.getElementsByTagName("ul")[1];
-    let updateInfoCart = document.createElement("p");
-    console.log(updateInfoCart)
-    sectionCart.appendChild(updateInfoCart);
-    updateInfoCart.innerHTML = `: ${numberProductInCart} canapés`;
-    }
-    displayUpdateCart()
+     //--Affichage du nombre de canapés dans le panier au moment de l'ouverture de la apge
+     let displayUpdateCart = () => {
+        let sectionCart = document.getElementsByTagName("ul")[1];
+        let updateInfoCart = document.createElement("p");
+        console.log(updateInfoCart)
+        sectionCart.appendChild(updateInfoCart);
+        updateInfoCart.innerHTML = `: ${numberProductInCart} canapés`;
+        }
+        displayUpdateCart()
 }
 updateNumberProductInCart()
 
@@ -127,14 +141,33 @@ else if (productsInCart.some(product => product._id === newProduct._id && produc
 //--Mise à jour des informations du panier : Quantité affichée à côté du mot panier dans le Header
 let updateNumberProductInCartAfterClick = () => {
 
-    let numberProductInCartAfterClick = 0
-    for (i = 0; i < productsInCart.length; i++) {
+    let productsInCart = JSON.parse(localStorage.getItem("cart"))
+    console.log(productsInCart)
+    let numberProductInCart = 0
+    
+    if (productsInCart == null){
+        let displayUpdateCart = () => {
+            let sectionCart = document.getElementsByTagName("ul")[1];
+            let updateInfoCart = document.createElement("p");
+            console.log(updateInfoCart)
+            sectionCart.appendChild(updateInfoCart);
+            updateInfoCart.innerText = ": vide";
+            }
+            displayUpdateCart()
+    }
+    else for (i = 0; i < productsInCart.length; i++) {
         if (productsInCart[i].color != "" && productsInCart[i].quantity > 0) {
             numberProductInCart = parseInt(numberProductInCart) + parseInt(productsInCart[i].quantity)
             console.log(numberProductInCart)
          }
-         return numberProductInCart
     }
+//--Affichage du nombre de canapés dans le panier au moment de l'ouverture de la apge
+    let displayUpdateCart = () => {
+        let updateInfoCart = document.getElementsByTagName("p")[0];
+        console.log(updateInfoCart)
+        updateInfoCart.innerText = `: ${numberProductInCart} canapés`
+        }
+        displayUpdateCart()
     }
     updateNumberProductInCartAfterClick()
 }
