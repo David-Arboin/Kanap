@@ -151,7 +151,7 @@ const removeProduct = async (panierDisplay) => {
                     }
                 }
             )
-                //--Prévenir de la suppression du produit
+//--Prévenir de la suppression du produit
             let confirmAction = confirm("Souhaitez-vous retirer ce produit du panier ?")
             if (confirmAction) {
                 console.log(newCart)
@@ -169,6 +169,115 @@ const removeProduct = async (panierDisplay) => {
 }
 removeProduct()
 
+//*****************Formulaire
+//--Déclaration des expressions régulières pour le prénom, le nom et la ville
+const regExpFirtsNameLastNameCity = (value) => {
+    return /^[A-Za-z]{3,20}$/.test(value)
+}
+regExpFirtsNameLastNameCity()
+
+//--Déclaration des expressions régulières pour l'adresse
+const regExpAddress = (value) => {
+    return /./g.test(value)
+}
+regExpAddress()
+
+//--Déclaration des expressions régulières pour l'email
+const regExpEmail = (value) => {
+    return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value)
+}
+regExpEmail()
+
+//--Contrôle de la validité du prénom
+function firstNameCheck() {
+    const firstName = document.getElementById("firstName")
+    firstName.addEventListener("change", function() {
+        if(regExpFirtsNameLastNameCity(firstName.value)){
+            document.getElementById("firstNameErrorMsg").innerHTML = ""
+            return true
+        }
+        else {
+            document.getElementById("firstNameErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
+            return false
+                }
+            }
+        )
+    }
+firstNameCheck()
+
+//--Contrôle de la validité du nom
+function lastNameCheck() {
+    const lastName = document.getElementById("lastName")
+    lastName.addEventListener("change", function() {
+        if(regExpFirtsNameLastNameCity(lastName.value)){
+            document.getElementById("lastNameErrorMsg").innerHTML = ""
+            return true
+            
+        }
+        else {
+            document.getElementById("lastNameErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
+            return false
+                }
+            }
+        )
+    }
+lastNameCheck()
+
+//--Contrôle de la validité de la ville
+function cityCheck() {
+    const city = document.getElementById("city")
+    city.addEventListener("change", function() {
+        if(regExpFirtsNameLastNameCity(city.value)){
+            document.getElementById("cityErrorMsg").innerHTML = ""
+            return true
+        }
+        else {
+            document.getElementById("cityErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
+            return false
+                }
+            }
+        )
+    }
+cityCheck()
+
+//--Contrôle de la validité de l'adresse
+function addressCheck() {
+    const address = document.getElementById("address")
+    console.log(address)
+    address.addEventListener("change", function() {
+        if(regExpAddress(address.value)){
+            document.getElementById("addressErrorMsg").innerHTML = ""
+            return true
+        }
+        else {
+            document.getElementById("addressErrorMsg").innerHTML = "Les symboles spéciaux ne sont pas autorisés"
+            return false
+                }
+            }
+        )
+    }
+addressCheck()
+
+//--Contrôle de la validité du email
+function emailCheck() {
+    const email = document.getElementById("email")
+    console.log(email)
+    email.addEventListener("change", function() {
+        if(regExpEmail(email.value)){
+            document.getElementById("emailErrorMsg").innerHTML = ""
+            return true
+        }
+        else {
+            document.getElementById("emailErrorMsg").innerHTML = "Ceci n'est pas une adresse mail valide"
+            return false
+                }
+            }
+        )
+    }
+emailCheck()
+
+//--Règles d'acceptation du formulaire
+if(firstNameCheck == true && lastNameCheck == true && cityCheck == true && addressCheck == true && emailCheck == true){
 //*****************Récupération des données client
 const customerInfo = () => {
     let orderCustomer = document.getElementById("order")
@@ -196,44 +305,41 @@ const customerInfo = () => {
         "lastName": lastNameCustomer,
         "adress": addressNameCustomer ,
         "city": cityNameCustomer,
-        "email":  emailNameCustomer
-        }]
-    console.log(arrayCustomerInfo)
-    localStorage.setItem("customer", JSON.stringify(arrayCustomerInfo))
-    })
-/*     let orderCustomerSubmit = orderCustomer.submit
-    console.log(orderCustomerSubmit)
- */
-
-
+        "email":  emailNameCustomer,
+        "total price": totalPrice, productsInCart
+            }
+        ]
+        console.log(arrayCustomerInfo)
+        localStorage.setItem("customer", JSON.stringify(arrayCustomerInfo))
+/*         window.location.href = ("confirmation.html") */
+        }
+    )
 }
 customerInfo()
-//***************** Vérification des données du formaulaire
-/* const formCerification = () => {
-
-    console.log(document.getElementsById("firstName"))
-
 }
-formCerification() */
-/* form.addEventListener("submit", function(e) {
+else {
+    alert("Veillez bien remplir le formulaire")
+}
+
+//Ecouter la modification de l'email
+/* formValidation.addEventListener("change", function() {
+    validEmail(this)
+})
+
+const validEmail = function(inputEmail) {
+    let emailRegExp = new RegExp(
+        '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g'
+    )
+    let testEmail = emailRegExp.test(inputEmail.value)
+    let messageEmail = document.getElementById("emailErrorMsg")
+    console.log(testEmail)
+
+    if (testEmail) {
+        messageEmail.innerHTML = "Adresse valide"
+    }
+    else {
+        messageEmail.innerHTML = "Adresse non valide"
+    }
+} */
 
 
-    let myRegex = /^[a-zA-Z-\s]+$/
-
-/*     if (firstName.value == ""){
-        let nameError = document.getElementById("firstNameErrorMsg")   
-        nameError.innerHTML = "Ce champ est requis"
-        nameError.style.color = 'red'
-        e.preventDefault()
-    } else if (myRegex.test(firstName.value) == false){
-        let nameError = document.getElementById("firstNameErrorMsg")   
-        nameError.innerHTML = "Le nom doit comporter des lettres, des irets uniquement"
-        nameError.style.color = 'red'
-        e.preventDefault()
-    } */
-
-
-
-        //--} */
-    
-//--} 
