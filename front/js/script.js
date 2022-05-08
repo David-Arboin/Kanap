@@ -6,18 +6,16 @@ const fetchProducts = async () => {
     .then((res) => res.json())
     .then((promise) => {
         productsInCard = promise
-        console.log(productsInCard);
+        console.log("Liste des produits disponibles :", productsInCard);
     });
 };
-
-fetchProducts(); //Execution de la fonctionn
 
 //Implémentation des données dans la page
 const productsDisplay = async () => { /*Création de la constante productsDisplay qui pourra s'executer en //*/
     await fetchProducts();/*Informe productsDisplay qu'elle doit attendre la fin de fetchProducts*/
 /*Appele la classe Item, ajoute à l'HTML les produits du tableau*/
     document.getElementById("items").innerHTML = productsInCard.map((products) => ` 
-        <a href="product.html?id=${products._id}" target="_blank">
+        <a href="product.html?id=${products._id}">
             <article>
                 <img src="${products.imageUrl}" alt="${products.altTxt}">
                 <h3 class="productName">${products.name}</h3>

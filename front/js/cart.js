@@ -1,9 +1,9 @@
-//--Récupération du panier (àchaque rechargemnt de la page avec window.location.href )
+//--Récupération du panier
 let productsInCart = JSON.parse(localStorage.getItem("cart"))
-console.log("Produits présents dans le panier", productsInCart)
+console.log("Produits présents dans le panier :", productsInCart)
 
 //**************** Affichage dynamique des canapés sélectionnés
-let panierDisplay = () => {
+function panierDisplay () {
 
 //--Affichage de chaque produit tour à tour
 document.getElementById("cart__items").innerHTML = productsInCart.map((products) => ` 
@@ -29,38 +29,46 @@ document.getElementById("cart__items").innerHTML = productsInCart.map((products)
     </div>
 </article>`
 ).join("")
-};
-
+}
 panierDisplay();
 
-//****************Affichage et calcul du prix total lors de l'ouverture de la page
+//****************Affichage et calcul du nombre d'aricles et du prix total lors de l'ouverture de la page
 let totalPriceByProduct = 0
 let totalPrice = 0
-let displayTotalPrice = () => {
+let totalCopyByProduct = 0
+let totalProducts = 0
+
+function displayTotalPrice () {
     for (i = 0; i < productsInCart.length; i++) {
         if (productsInCart[i].color != "" && productsInCart[i].quantity > 0) {
             totalPriceByProduct = parseInt(productsInCart[i].price) * parseInt(productsInCart[i].quantity)
             totalPrice = totalPrice + totalPriceByProduct
+            totalCopyByProduct = 1 * parseInt(productsInCart[i].quantity)
+            totalProducts = totalProducts + totalCopyByProduct
          }
     }
         let displayPrice = document.getElementById("totalPrice")
         displayPrice.innerText = `${totalPrice}`
-        console.log("Prix total à l'ouverture de la page :", totalPrice, "€")
-    }
-displayTotalPrice()
+        console.log("Prix total au moment de l'ouverture de la page :", totalPrice, "€")
 
-//**************** Mise à jour du prix total lors de la saisie d'une nouvelle quantité depuis les petites flèches
+        let totalQuantity = document.getElementById("totalQuantity")
+        totalQuantity.innerText = `${totalProducts}`
+        console.log("Nombre d'articles au moment de l'ouverture de la page :", totalProducts)
+    }
+displayTotalPrice ()
+
+//**************** Mise à jour du nombre d'article et du prix total lors de la saisie d'une nouvelle quantité depuis les petites flèches
 const newTotalByNewQuantityByArrow = async (panierDisplay) => {
     await panierDisplay
 
 //--Récupérartion de toutes les quantités
     let newQuantities = document.querySelectorAll(".itemQuantity")
-    console.log("Liste des quantités sur leur 'bouton modifiable'", newQuantities)
+    console.log("Liste des quantités par produit sur leur 'bouton modifiable'", newQuantities)
 
 //--Ecoute du clik
     newQuantities.forEach((newQuantity) => {newQuantity.addEventListener("click",() => {
 
-//--Récupérartion de la nouvelle quantité
+//--Récupérartion de la nouvelle quantité saisie
         let retrieveNewQuantity = newQuantity.value
         console.log("Une nouvelle quantité vient d'être saisie :", retrieveNewQuantity)
 
@@ -88,16 +96,27 @@ productWhithNewQuantity()
 
 let totalPriceByProduct = 0
 let totalPrice = 0
+let totalQuantityByProduct = 0
+let totalQuantity = 0
 let displayTotalPrice = () => {
     for (k = 0; k < productsInCart.length; k++) {
         if (productsInCart[k].color != "" && productsInCart[k].quantity > 0) {
             totalPriceByProduct = parseInt(productsInCart[k].price) * parseInt(productsInCart[k].quantity)
             totalPrice = totalPrice + totalPriceByProduct
+
+            totalQuantityByProduct = parseInt(productsInCart[k].quantity)
+            totalQuantity = totalQuantity + totalQuantityByProduct
         }
       }
-      let displayPrice = document.getElementById("totalPrice")
-      displayPrice.innerText = `${totalPrice}`
-      console.log("Nouveau prix total :", totalPrice, "€")
+//--Affichage dynamique du prix total
+      let displayNewTotalPrice = document.getElementById("totalPrice")
+      displayNewTotalPrice.innerText = `${totalPrice}`
+      console.log("Mise à jour du prix total :", totalPrice, "€")
+
+//--Affichage dynamique de la quantité totale d'article
+      let displayNewTotalQuantity = document.getElementById("totalQuantity")
+      displayNewTotalQuantity.innerText = `${totalQuantity}`
+      console.log("Mise à jour du nombre total d'article dans le panier :", totalQuantity)
     }
 displayTotalPrice()
     localStorage.setItem("cart", JSON.stringify(productsInCart))
@@ -112,11 +131,11 @@ newTotalByNewQuantityByArrow()
 const removeProduct = async (panierDisplay) => {
     await panierDisplay
 
-//--Récupérartion de tous les boutons supprimmer
+//--Récupération de tous les boutons supprimmer
     let trashs = document.querySelectorAll(".deleteItem")
-    console.log("Liste des boutons 'supprimer'", trashs)
+    console.log("Liste des boutons 'Supprimer'", trashs)
 
-//--Ecoute du clik
+//--Ecoute du clik sur Supprimer
     trashs.forEach((trash) => {trash.addEventListener("click",() => {
         console.log(trash)
 
@@ -170,176 +189,166 @@ const removeProduct = async (panierDisplay) => {
 removeProduct()
 
 //*****************Formulaire
-//--Déclaration des expressions régulières pour le prénom, le nom et la ville
-const regExpFirtsNameLastNameCity = (value) => {
-    return /^[A-Za-z]{3,20}$/.test(value)
-}
-regExpFirtsNameLastNameCity()
-
-//--Déclaration des expressions régulières pour l'adresse
-const regExpAddress = (value) => {
-    return /./g.test(value)
-}
-regExpAddress()
-
-//--Déclaration des expressions régulières pour l'email
-const regExpEmail = (value) => {
-    return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value)
-}
-regExpEmail()
 
 //--Contrôle de la validité du prénom
 function firstNameCheck() {
     const firstName = document.getElementById("firstName")
-    firstName.addEventListener("change", function() {
-        if(regExpFirtsNameLastNameCity(firstName.value)){
-            document.getElementById("firstNameErrorMsg").innerHTML = ""
+        if(/^[A-Za-z]{3,20}$/.test(firstName.value)){
+            document.getElementById("firstNameErrorMsg").innerHTML = ""//--Permet de retirer le message d'erreur
+            let firstNameValidated = firstName.value
             return true
         }
         else {
-            document.getElementById("firstNameErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
             return false
                 }
             }
-        )
-    }
 firstNameCheck()
 
 //--Contrôle de la validité du nom
 function lastNameCheck() {
     const lastName = document.getElementById("lastName")
-    lastName.addEventListener("change", function() {
-        if(regExpFirtsNameLastNameCity(lastName.value)){
+        if(/^[A-Za-z]{3,20}$/.test(lastName.value)){
             document.getElementById("lastNameErrorMsg").innerHTML = ""
             return true
-            
         }
         else {
-            document.getElementById("lastNameErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
             return false
                 }
             }
-        )
-    }
 lastNameCheck()
-
-//--Contrôle de la validité de la ville
-function cityCheck() {
-    const city = document.getElementById("city")
-    city.addEventListener("change", function() {
-        if(regExpFirtsNameLastNameCity(city.value)){
-            document.getElementById("cityErrorMsg").innerHTML = ""
-            return true
-        }
-        else {
-            document.getElementById("cityErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
-            return false
-                }
-            }
-        )
-    }
-cityCheck()
-
+    
 //--Contrôle de la validité de l'adresse
 function addressCheck() {
     const address = document.getElementById("address")
-    console.log(address)
-    address.addEventListener("change", function() {
-        if(regExpAddress(address.value)){
+        if(/./g.test(address.value)){
             document.getElementById("addressErrorMsg").innerHTML = ""
             return true
         }
         else {
-            document.getElementById("addressErrorMsg").innerHTML = "Les symboles spéciaux ne sont pas autorisés"
+            return false
+                }
+            } 
+addressCheck()
+
+//--Contrôle de la validité de la ville
+function cityCheck() {
+    const city = document.getElementById("city")
+        if(/^[A-Za-z]{3,20}$/.test(city.value)){
+            document.getElementById("cityErrorMsg").innerHTML = ""
+            return true
+        }
+        else {
             return false
                 }
             }
-        )
-    }
-addressCheck()
+cityCheck()
 
 //--Contrôle de la validité du email
 function emailCheck() {
     const email = document.getElementById("email")
-    console.log(email)
-    email.addEventListener("change", function() {
-        if(regExpEmail(email.value)){
+        if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email.value)){
             document.getElementById("emailErrorMsg").innerHTML = ""
             return true
         }
         else {
-            document.getElementById("emailErrorMsg").innerHTML = "Ceci n'est pas une adresse mail valide"
             return false
                 }
             }
-        )
-    }
 emailCheck()
 
-//--Règles d'acceptation du formulaire
-if(firstNameCheck == true && lastNameCheck == true && cityCheck == true && addressCheck == true && emailCheck == true){
-//*****************Récupération des données client
-const customerInfo = () => {
-    let orderCustomer = document.getElementById("order")
-    console.log(orderCustomer)
-    orderCustomer.addEventListener("click", () => {
-    //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    console.log(urlSearchParams);
+//**************Conditions d'acceptation du formulaire
+const formValidateAndCheck = async (panierDisplay) => {
+    await panierDisplay
 
-    let firstNameCustomer = urlSearchParams.get("firstName")
-    let lastNameCustomer = urlSearchParams.get("lastName")
-    let addressNameCustomer = urlSearchParams.get("address")
-    let cityNameCustomer = urlSearchParams.get("city")
-    let emailNameCustomer = urlSearchParams.get("email")
+    let form = document.getElementsByClassName("cart__order__form")[0]
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
 
-    console.log(firstNameCustomer)
-    console.log(lastNameCustomer)
-    console.log(addressNameCustomer)
-    console.log(cityNameCustomer)
-    console.log(emailNameCustomer)
+//--Si toutes les données saisies dans le formulaire sont exactes (vérifiées par les RegExps ci-dessus)
+        if(firstNameCheck() && lastNameCheck() && addressCheck() && cityCheck() && emailCheck()){
+            console.log("ok")
+//Récupération des données saisies dans le formaulaire
+let firstName = document.getElementById("firstName").value
+const lastName = document.getElementById("lastName").value
+const address = document.getElementById("address").value
+const city = document.getElementById("city").value
+const email = document.getElementById("email").value
 
-    let arrayCustomerInfo = [
-        {
-        "firstName": firstNameCustomer,
-        "lastName": lastNameCustomer,
-        "adress": addressNameCustomer ,
-        "city": cityNameCustomer,
-        "email":  emailNameCustomer,
-        "total price": totalPrice, productsInCart
+//--Récupération des produits du panier panier
+const idProducts = JSON.parse(localStorage.getItem("cart"))
+console.log("Contenu du panier :", idProducts)
+let products = []
+for (l = 0; l < idProducts.length; l++){
+    products.push(idProducts[l]._id)
+}
+console.log("Ids des produits à envoyer au server :", products)
+
+//--Création du contact
+let contact = 
+    {
+      "firstName": firstName,
+      "lastName": lastName,
+      "address": address,
+      "city": city,
+      "email": email,
+    }
+console.log("Fiche du contact :", contact)
+//--Envoi de la commande sur le server
+const sendOrderToServer01 = fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    headers: {
+        "Content-Type" : "application/json"
+        },
+    body: JSON.stringify({contact, products})
+    }
+)
+//--Voir le résultat du server dans la console grâce à la promesse
+sendOrderToServer01.then(async(response)=> {
+    try{
+        const contain = await response.json()
+        console.log("Réponse du server", contain)
+
+            if(response.ok){
+                console.log(`Résultat de response du server : ${response.ok}`)
+                
+//--Récupération de l'id de la réponse du server
+                console.log("id de la réponse du server :",contain._id)
+
+//--Redirection vers la page confirmation de la commande
+                      window.location.href = ('confirmation.html')
+                  }
+            else{
+                console.log(`Réponse du server : ${response.status} `)
+                alert(`Problème avec le serveru : erreur ${response.status} `)
             }
-        ]
-        console.log(arrayCustomerInfo)
-        localStorage.setItem("customer", JSON.stringify(arrayCustomerInfo))
-/*         window.location.href = ("confirmation.html") */
+        }
+//--Si la promesse n'est pas résolue, elle sera rejetée - Gestion des erreurs
+     catch(e){
+        console.log("ERREUR qui vient du catch()")
+        console.log(e)
+        alert(`ERREUR qui vient du catch() : ${e}`)
+            }
         }
     )
 }
-customerInfo()
-}
-else {
-    alert("Veillez bien remplir le formulaire")
-}
-
-//Ecouter la modification de l'email
-/* formValidation.addEventListener("change", function() {
-    validEmail(this)
+//--Si un ou plusieurs données saisies dans le formulaire, on avertit l'utilisateur
+        else {
+            if(firstNameCheck() != true) {
+                document.getElementById("firstNameErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
+            }
+            if(lastNameCheck() != true) {
+                document.getElementById("lastNameErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
+            }
+            if(addressCheck() != true) {
+            document.getElementById("addressErrorMsg").innerHTML = "Les symboles spéciaux ne sont pas autorisés"
+            }
+            if(cityCheck() != true) {
+            document.getElementById("cityErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
+            }
+            if(emailCheck() != true) {
+            document.getElementById("emailErrorMsg").innerHTML = "Ceci n'est pas une adresse mail valide"
+            }
+        }
 })
-
-const validEmail = function(inputEmail) {
-    let emailRegExp = new RegExp(
-        '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g'
-    )
-    let testEmail = emailRegExp.test(inputEmail.value)
-    let messageEmail = document.getElementById("emailErrorMsg")
-    console.log(testEmail)
-
-    if (testEmail) {
-        messageEmail.innerHTML = "Adresse valide"
-    }
-    else {
-        messageEmail.innerHTML = "Adresse non valide"
-    }
-} */
-
-
+}
+formValidateAndCheck()

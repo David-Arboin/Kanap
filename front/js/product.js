@@ -1,17 +1,17 @@
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
 const urlSearchParams = new URLSearchParams(window.location.search);
-console.log(urlSearchParams);
+console.log("Récupération de l'URL de la page :", urlSearchParams);
 
 //--Récupérartion de l'id du produit
 const idProduct = urlSearchParams.get("id");
-console.log(idProduct);
+console.log("L'id du produit est :", idProduct);
 
 //--Informations du panier : Quantité affichée à côté du mot panier dans le Header
 let updateNumberProductInCart = () => {
 
 //--Récupération du panier
 let productsInCart = JSON.parse(localStorage.getItem("cart"))
-console.log(productsInCart)
+console.log("Que contient le panier ?", productsInCart)
 let numberProductInCart = 0
 
 //--S'il est vide, on l'affiche
@@ -29,14 +29,12 @@ if (productsInCart == null){
 else for (i = 0; i < productsInCart.length; i++) {
     if (productsInCart[i].color != "" && productsInCart[i].quantity > 0) {
         numberProductInCart = parseInt(numberProductInCart) + parseInt(productsInCart[i].quantity)
-        console.log(numberProductInCart)
      }
 }
-     //--Affichage du nombre de canapés dans le panier au moment de l'ouverture de la apge
+//--Affichage du nombre de canapés dans le panier au moment de l'ouverture de la apge
      let displayUpdateCart = () => {
         let sectionCart = document.getElementsByTagName("ul")[1];
         let updateInfoCart = document.createElement("p");
-        console.log(updateInfoCart)
         sectionCart.appendChild(updateInfoCart);
         updateInfoCart.innerHTML = `: ${numberProductInCart} canapés`;
         }
@@ -50,7 +48,7 @@ const fetchProduct = async () => {
     .then((res) => res.json())
     .then((data) => {
     productsInCard = data //Ici, productData devient l'élément qui contient les données du produit
-    console.log(productsInCard)
+    console.log("Données liées au produit de cette page :", productsInCard)
     })
 };
 
@@ -64,7 +62,7 @@ const displayPageProduct = async () => {
     let descriptionProduct = document.getElementById("description").innerText = `${productsInCard.description}`
 
 //--Optionnel--Voir dans la console le nombre de couleur possible
-    console.log(productsInCard.colors.length)
+    console.log("Nombre de couleur possible pour ce canapé :",productsInCard.colors.length)
 
 //Boucle de création des choix de couleurs
     for (let i = 0; i < productsInCard.colors.length; i++){
@@ -107,13 +105,9 @@ if (newProduct.quantity == 0){
 if (newProduct.quantity > 0){
     document.getElementById("quantity").style.backgroundColor = "#3B3B3B"
 }
-//--Optionnel--Permet de voir les données du produit de la page active même la quantité saisie
-console.log(newProduct)
 
 //--Récupérer le contenu du panier
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
-    console.log(newProduct)
-    console.log(productsInCart)
 
 //---Premier produit dans le panier s'il n'y en a pas déjà un
 if (productsInCart == null) {
@@ -135,14 +129,13 @@ else if (productsInCart.some(product => product._id === newProduct._id && produc
 //--Si le produit est nouveau, on l'ajoute
 }    else {
     productsInCart.push(newProduct)
-    console.log(productsInCart) 
     localStorage.setItem("cart", JSON.stringify(productsInCart))  
 }
 //--Mise à jour des informations du panier : Quantité affichée à côté du mot panier dans le Header
 let updateNumberProductInCartAfterClick = () => {
 
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
-    console.log(productsInCart)
+    console.log("Et maintenant le panier contient :", productsInCart, "références")
     let numberProductInCart = 0
     
     if (productsInCart == null){
@@ -158,13 +151,11 @@ let updateNumberProductInCartAfterClick = () => {
     else for (i = 0; i < productsInCart.length; i++) {
         if (productsInCart[i].color != "" && productsInCart[i].quantity > 0) {
             numberProductInCart = parseInt(numberProductInCart) + parseInt(productsInCart[i].quantity)
-            console.log(numberProductInCart)
          }
     }
 //--Affichage du nombre de canapés dans le panier au moment de l'ouverture de la apge
     let displayUpdateCart = () => {
         let updateInfoCart = document.getElementsByTagName("p")[0];
-        console.log(updateInfoCart)
         updateInfoCart.innerText = `: ${numberProductInCart} canapés`
         }
         displayUpdateCart()
