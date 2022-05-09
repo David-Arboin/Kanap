@@ -293,6 +293,7 @@ let contact =
       "email": email,
     }
 console.log("Fiche du contact :", contact)
+
 //--Envoi de la commande sur le server
 const sendOrderToServer01 = fetch("http://localhost:3000/api/products/order", {
     method: "POST",
@@ -302,6 +303,7 @@ const sendOrderToServer01 = fetch("http://localhost:3000/api/products/order", {
     body: JSON.stringify({contact, products})
     }
 )
+
 //--Voir le résultat du server dans la console grâce à la promesse
 sendOrderToServer01.then(async(response)=> {
     try{
@@ -312,10 +314,11 @@ sendOrderToServer01.then(async(response)=> {
                 console.log(`Résultat de response du server : ${response.ok}`)
                 
 //--Récupération de l'id de la réponse du server
-                console.log("id de la réponse du server :",contain._id)
+                console.log("id de la réponse du server :",contain.orderId)
+                console.log("Réponse produit du serveur :",contain.products)
 
 //--Redirection vers la page confirmation de la commande
-                      window.location.href = ('confirmation.html')
+ /*                      window.location.href = ('confirmation.html') */
                   }
             else{
                 console.log(`Réponse du server : ${response.status} `)

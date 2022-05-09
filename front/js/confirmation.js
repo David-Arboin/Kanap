@@ -4,12 +4,12 @@ const fetchProducts = async () => {
     .then((res) => res.json())
     .then((promise) => {
         order = promise
-        console.log("Liste des produits disponibles :",contact, order);
+        console.log("Liste des produits disponibles :",order);
     });
 }
 
 
-const orderProcessing = () => {
+/* const orderProcessing = () => {
 
 /* //--Récupération de la commande
 const customer = JSON.parse(localStorage.getItem("card"))
@@ -35,5 +35,5 @@ orderProcessing() */
     await orderProcessing
     localStorage.clear()
 }
-removeLocalStorage() */
-}
+removeLocalStorage()
+} */
