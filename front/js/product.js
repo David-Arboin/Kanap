@@ -26,21 +26,21 @@ let updateNumberProductInCart = () => {
             displayUpdateCart()
     }
 //--S'il contient des produits, on compte leur nombre
-    else for (i = 0; i < productsInCart.length; i++) {
-        if (productsInCart[i].color != "" && productsInCart[i].quantity > 0) {
-            numberProductInCart = parseInt(numberProductInCart) + parseInt(productsInCart[i].quantity)
+    else {
+            for (i = 0; i < productsInCart.length; i++) {
+            if (productsInCart[i].color != "" && productsInCart[i].quantity > 0) {
+                numberProductInCart = parseInt(numberProductInCart) + parseInt(productsInCart[i].quantity)
+            }
         }
-    
 //--Et on l'affiche à côté du mot panier
-     let displayUpdateCart = () => {
-        let sectionCart = document.getElementsByTagName("ul")[1];
-        let updateInfoCart = document.createElement("p");
-        sectionCart.appendChild(updateInfoCart);
-        updateInfoCart.innerHTML = `: ${numberProductInCart} canapés`;
+        let displayUpdateCart = () => {
+            let sectionCart = document.getElementsByTagName("ul")[1];
+            let updateInfoCart = document.createElement("p");
+            sectionCart.appendChild(updateInfoCart);
+            updateInfoCart.innerHTML = `: ${numberProductInCart} canapés`;
+            }
+            displayUpdateCart()
         }
-        displayUpdateCart()
-    }
-
 }
 updateNumberProductInCart()
 
@@ -119,7 +119,13 @@ function addToCart() {//addToCart
         productsInCart = []
         productsInCart.push(newProduct)
         console.log(productsInCart) 
-        localStorage.setItem("cart", JSON.stringify(productsInCart))  
+        localStorage.setItem("cart", JSON.stringify(productsInCart))
+
+//--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+        let infoCard = document.createElement("p")
+        let confirmInfoCard = document.getElementById("addToCart")
+        confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
+        setTimeout(function() {confirmInfoCard.removeChild(infoCard)},2000);
     }
 //--Si le panier contient un produit identique, on met sa quantité à jour
     else if (productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color)){
@@ -127,7 +133,15 @@ function addToCart() {//addToCart
             productsInCart.map(product => { 
                 if (product._id === newProduct._id && product.color === newProduct.color) {
                     product.quantity = newProduct.quantity
-                    localStorage.setItem("cart", JSON.stringify(productsInCart))  
+                    localStorage.setItem("cart", JSON.stringify(productsInCart))
+
+//--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+                    let infoCard = document.createElement("p")
+                    let confirmInfoCard = document.getElementById("addToCart")
+                    confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
+                    setTimeout(function() {
+                        confirmInfoCard.removeChild(infoCard)
+                      },2000);
                 }
                 return product
             }
@@ -136,7 +150,13 @@ function addToCart() {//addToCart
 //--Si le produit est nouveau, on l'ajoute
         else {
         productsInCart.push(newProduct)
-        localStorage.setItem("cart", JSON.stringify(productsInCart))  
+        localStorage.setItem("cart", JSON.stringify(productsInCart))
+
+//--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+        let infoCard = document.createElement("p")
+        let confirmInfoCard = document.getElementById("addToCart")
+        confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
+        setTimeout(function() {confirmInfoCard.removeChild(infoCard)},2000);
     }
 //--Mise à jour des informations du panier : Quantité affichée à côté du mot panier dans le Header
     let updateNumberProductInCartAfterClick = () => {
