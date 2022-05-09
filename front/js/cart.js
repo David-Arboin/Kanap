@@ -63,7 +63,7 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
 
 //--Récupérartion de toutes les quantités
     let newQuantities = document.querySelectorAll(".itemQuantity")
-    console.log("Liste des quantités par produit sur leur 'bouton modifiable'", newQuantities)
+    console.log("Liste des boutons 'quantités' :", newQuantities)
 
 //--Ecoute du clik
     newQuantities.forEach((newQuantity) => {newQuantity.addEventListener("click",() => {
@@ -71,6 +71,11 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
 //--Récupérartion de la nouvelle quantité saisie
         let retrieveNewQuantity = newQuantity.value
         console.log("Une nouvelle quantité vient d'être saisie :", retrieveNewQuantity)
+
+//--Si la nouvelle quantité est supérieure à 100, on la corrige à 100
+        if (retrieveNewQuantity >= 100){
+            document.getElementById("text-field-container").value = 100
+        }
 
 //--Récupérartion des données liées au produit
         let retrieveProductToNewQuantity = newQuantity.closest("article")
@@ -274,7 +279,7 @@ const address = document.getElementById("address").value
 const city = document.getElementById("city").value
 const email = document.getElementById("email").value
 
-//--Récupération des produits du panier panier
+//--Récupération des ids produits
 const idProducts = JSON.parse(localStorage.getItem("cart"))
 console.log("Contenu du panier :", idProducts)
 let products = []
@@ -318,7 +323,7 @@ sendOrderToServer01.then(async(response)=> {
                 console.log("Réponse produit du serveur :",contain.products)
 
 //--Redirection vers la page confirmation de la commande
- /*                      window.location.href = ('confirmation.html') */
+                window.location.href = `confirmation.html?orderID=${contain.orderId}`
                   }
             else{
                 console.log(`Réponse du server : ${response.status} `)

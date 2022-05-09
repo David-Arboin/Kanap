@@ -104,6 +104,9 @@ function addToCart() {//addToCart
     if (newProduct.quantity == 0){
         document.getElementById("quantity").style.backgroundColor = "green"
     }
+    if (newProduct.quantity >= 100){
+        document.getElementById("quantity").value = 100
+    }
     if (newProduct.quantity > 0){
         document.getElementById("quantity").style.backgroundColor = "#3B3B3B"
     }
