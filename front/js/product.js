@@ -104,18 +104,21 @@ function addToCart() {//addToCart
     if (newProduct.quantity == 0){
         document.getElementById("quantity").style.backgroundColor = "green"
     }
-    if (newProduct.quantity >= 100){
-        document.getElementById("quantity").value = 100
-    }
     if (newProduct.quantity > 0){
         document.getElementById("quantity").style.backgroundColor = "#3B3B3B"
     }
+
+//--Si la quantité saisie est supérieure à 100, elle est automatiquement ramenée à 100
+if (newProduct.quantity > 100){
+    document.getElementById("quantity").value = 100
+    newProduct.quantity = 100
+}
 
 //--Récupérer le contenu du panier
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
 
 //---Premier produit dans le panier s'il n'y en a pas déjà un
-    if (productsInCart == null) {
+    if (productsInCart == null && newProduct.color != "" && newProduct.quantity > 0) {
         productsInCart = []
         productsInCart.push(newProduct)
         console.log(productsInCart) 
@@ -127,10 +130,10 @@ function addToCart() {//addToCart
         confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
         setTimeout(function() {confirmInfoCard.removeChild(infoCard)},2000);
     }
-//--Si le panier contient un produit identique, on met sa quantité à jour
-    else if (productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color)){
+//--Si le panier contient un produit identique et qu'une couleur et une quantité ont été sélectionnées sur la page courante, on met sa quantité à jour
+    else if ((productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color) && newProduct.color != "" && newProduct.quantity > 0)){
             console.log(productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color))
-            productsInCart.map(product => { 
+            productsInCart.map(product => {
                 if (product._id === newProduct._id && product.color === newProduct.color) {
                     product.quantity = newProduct.quantity
                     localStorage.setItem("cart", JSON.stringify(productsInCart))
@@ -139,9 +142,7 @@ function addToCart() {//addToCart
                     let infoCard = document.createElement("p")
                     let confirmInfoCard = document.getElementById("addToCart")
                     confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
-                    setTimeout(function() {
-                        confirmInfoCard.removeChild(infoCard)
-                      },2000);
+                    setTimeout(function() {confirmInfoCard.removeChild(infoCard)},2000);
                 }
                 return product
             }
@@ -149,15 +150,18 @@ function addToCart() {//addToCart
     }
 //--Si le produit est nouveau, on l'ajoute
         else {
-        productsInCart.push(newProduct)
-        localStorage.setItem("cart", JSON.stringify(productsInCart))
-
-//--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
-        let infoCard = document.createElement("p")
-        let confirmInfoCard = document.getElementById("addToCart")
-        confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
-        setTimeout(function() {confirmInfoCard.removeChild(infoCard)},2000);
+            if (newProduct.color != "" && newProduct.quantity > 0){
+                productsInCart.push(newProduct)
+                localStorage.setItem("cart", JSON.stringify(productsInCart))
+        
+        //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+                let infoCard = document.createElement("p")
+                let confirmInfoCard = document.getElementById("addToCart")
+                confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
+                setTimeout(function() {confirmInfoCard.removeChild(infoCard)},2000);
+            }
     }
+    
 //--Mise à jour des informations du panier : Quantité affichée à côté du mot panier dans le Header
     let updateNumberProductInCartAfterClick = () => {
 
