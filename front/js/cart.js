@@ -198,7 +198,7 @@ removeProduct()
 //--Contrôle de la validité du prénom
 function firstNameCheck() {
     const firstName = document.getElementById("firstName")
-        if(/^[A-Za-z]{3,20}$/.test(firstName.value)){
+        if(/^[A-Za-z\-\ë]{3,20}$/.test(firstName.value)){
             document.getElementById("firstNameErrorMsg").innerHTML = ""//--Permet de retirer le message d'erreur
             let firstNameValidated = firstName.value
             return true
@@ -212,7 +212,7 @@ firstNameCheck()
 //--Contrôle de la validité du nom
 function lastNameCheck() {
     const lastName = document.getElementById("lastName")
-        if(/^[A-Za-z]{3,20}$/.test(lastName.value)){
+        if(/^[A-Za-z\-\ë]{3,20}$/.test(lastName.value)){
             document.getElementById("lastNameErrorMsg").innerHTML = ""
             return true
         }
@@ -238,7 +238,7 @@ addressCheck()
 //--Contrôle de la validité de la ville
 function cityCheck() {
     const city = document.getElementById("city")
-        if(/^[A-Za-z]{3,20}$/.test(city.value)){
+        if(/^[A-Za-z\-\ë]{3,20}$/.test(city.value)){
             document.getElementById("cityErrorMsg").innerHTML = ""
             return true
         }
