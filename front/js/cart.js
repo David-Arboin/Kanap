@@ -73,8 +73,9 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
         console.log("Une nouvelle quantité vient d'être saisie :", retrieveNewQuantity)
 
 //--Si la nouvelle quantité est supérieure à 100, on la corrige à 100
-        if (retrieveNewQuantity >= 100){
+        if (retrieveNewQuantity > 100){
             document.getElementById("text-field-container").value = 100
+            retrieveNewQuantity = 100
         }
 
 //--Récupérartion des données liées au produit
