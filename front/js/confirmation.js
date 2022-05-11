@@ -4,10 +4,16 @@ console.log("Récupération de l'URL de la page :", urlSearchParams);
 
 //--Récupérartion de l'id du produit
 const orderId = urlSearchParams.get("orderID");
-console.log("L'id du produit est :", orderId);
+console.log("L'id de la comande renyée par le server est :", orderId);
 
 //--Affichage de l'id ed la commande renvoyée par le server
-document.getElementById("orderId").innerText = orderId
+const displayOrderId = document.getElementById("orderId")
+displayOrderId.innerText = orderId
+
+//--Affichage d'un message de remerciement
+const thanks = document.createElement("p")
+displayOrderId.appendChild(thanks).innerHTML = "Merci et à bientôt !"
+
 
 //--Suppression du panier et des données de la commande
 localStorage.clear()

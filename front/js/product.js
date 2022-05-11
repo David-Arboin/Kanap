@@ -1,13 +1,13 @@
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
-const urlSearchParams = new URLSearchParams(window.location.search);
-console.log("Récupération de l'URL de la page :", urlSearchParams);
+const urlSearchParams = new URLSearchParams(window.location.search)
+console.log("Récupération de l'URL de la page :", urlSearchParams)
 
-//--Récupérartion de l'id du produit
+//--Récupération de l'id du produit
 const idProduct = urlSearchParams.get("id");
 console.log("L'id du produit est :", idProduct);
 
 //********************Informations du panier : Quantité affichée à côté du mot panier dans le Header au moment de l'ouverture de la page
-let updateNumberProductInCart = () => {
+const updateNumberProductInCart = () => {
 
 //--Récupération du panier
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
@@ -44,38 +44,46 @@ let updateNumberProductInCart = () => {
 }
 updateNumberProductInCart()
 
-//--Appel des données liées au produits
-const fetchProduct = async () => {
-    await fetch(`http://localhost:3000/api/products/${idProduct}`)
-    .then((res) => res.json())
-    .then((data) => {
-    productsInCard = data //Ici, productData devient l'élément qui contient les données du produit
-    console.log("Données liées au produit de cette page :", productsInCard)
-    })
-};
+//--Appel des données liées au produits de la page actuelle
+//--Méthode 1
+  const fetchProduct = async () => {
+    const res = await fetch(`http://localhost:3000/api/products/${idProduct}`)
+    const dataProduct = await res.json()
+    console.log("Données liées au produit de cette page :", dataProduct)
+    return dataProduct
+    }
+
+//--Méthode 2
+/*    const fetchProduct = () => {
+        return fetch(`http://localhost:3000/api/products/${idProduct}`)//  Requête fetch GET pour récupérer les données d'un canapé dans l'api selon son id
+        .then(res => {//  Réponse de l'api, contient le status ainsi que d'autre informations. Les données ne sont pas lisibles à ce stade
+        return res.json()// On parse le body afin qu'il soit lisible par notre code
+        }
+     )
+} */
 
 //--Affichage des détails du produit
 const displayPageProduct = async () => {
-    await fetchProduct();
+    dataProduct = await fetchProduct()
 
-    let imgProduct = document.getElementsByClassName("item__img")[0].innerHTML = `<img src="${productsInCard.imageUrl}">`
-    let titleProduct = document.querySelector("h1").innerText = `${productsInCard.name}`
-    let priceProduct = document.getElementById("price").innerText = `${productsInCard.price}`
-    let descriptionProduct = document.getElementById("description").innerText = `${productsInCard.description}`
+    let imgProduct = document.getElementsByClassName("item__img")[0].innerHTML = `<img src="${dataProduct.imageUrl}">`
+    let titleProduct = document.querySelector("h1").innerText = `${dataProduct.name}`
+    let priceProduct = document.getElementById("price").innerText = `${dataProduct.price}`
+    let descriptionProduct = document.getElementById("description").innerText = `${dataProduct.description}`
 
 //--Optionnel--Voir dans la console le nombre de couleur possible
-    console.log("Nombre de couleur possible pour ce canapé :",productsInCard.colors.length)
+    console.log("Nombre de couleur possible pour ce canapé :",dataProduct.colors.length)
 
 //Boucle de création des choix de couleurs
-    for (let i = 0; i < productsInCard.colors.length; i++){
+    for (let i = 0; i < dataProduct.colors.length; i++){
         let optionColors = document.createElement("option");
         let sectionColors = document.getElementById("colors");
         sectionColors.appendChild(optionColors);
-        optionColors.innerText = `${productsInCard.colors[i]}`
-        optionColors.value = `${productsInCard.colors[i]}`
+        optionColors.innerText = `${dataProduct.colors[i]}`
+        optionColors.value = `${dataProduct.colors[i]}`
     }
 }
-displayPageProduct(); //--Exécution de la fonction displayPageProduct
+displayPageProduct() //--Exécution de la fonction displayPageProduct
 
 //*****************Ecoute du click sur Ajouter au panier
 document.getElementById("addToCart").addEventListener("click", addToCart)
@@ -85,13 +93,13 @@ function addToCart() {//addToCart
 
 //--Récupération des données de la page produit pour les envoyers dans le panier s'il n'y est pas déjà
     let newProduct = {
-    _id : productsInCard._id, 
+    _id : dataProduct._id, 
     color : document.getElementById("colors").value, 
     quantity : document.getElementById("quantity").value,
-    image : productsInCard.imageUrl,
-    alt : productsInCard.altTxt,
-    name : productsInCard.name,
-    price : productsInCard.price
+    image : dataProduct.imageUrl,
+    alt : dataProduct.altTxt,
+    name : dataProduct.name,
+    price : dataProduct.price
     }
 
 //--Si la couleur ou la quantité n'est pas choisie, le client est avertit
@@ -121,20 +129,23 @@ if (newProduct.quantity > 100){
     if (productsInCart == null && newProduct.color != "" && newProduct.quantity > 0) {
         productsInCart = []
         productsInCart.push(newProduct)
-        console.log(productsInCart) 
         localStorage.setItem("cart", JSON.stringify(productsInCart))
 
 //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
         let infoCard = document.createElement("p")
         let confirmInfoCard = document.getElementById("addToCart")
         confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
-        setTimeout(function() {confirmInfoCard.removeChild(infoCard)},2000);
+        setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000);
     }
-//--Si le panier contient un produit identique et qu'une couleur et une quantité ont été sélectionnées sur la page courante, on met sa quantité à jour
+
+//--Si le panier contient un produit identique
+//--Et qu'une couleur et une quantité ont été sélectionnées sur la page courante
+//--Et que la quantité saisie et différente de celle déjà dans le panier, on met sa quantité à jour
     else if ((productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color) && newProduct.color != "" && newProduct.quantity > 0)){
-            console.log(productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color))
+
+            console.log("Ce canapé est déjà dans le panier,nous mettrons sa quantité à jour si nécessaire")
             productsInCart.map(product => {
-                if (product._id === newProduct._id && product.color === newProduct.color) {
+                if (product._id === newProduct._id && product.color === newProduct.color  && product.quantity != newProduct.quantity) {
                     product.quantity = newProduct.quantity
                     localStorage.setItem("cart", JSON.stringify(productsInCart))
 
@@ -142,7 +153,7 @@ if (newProduct.quantity > 100){
                     let infoCard = document.createElement("p")
                     let confirmInfoCard = document.getElementById("addToCart")
                     confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
-                    setTimeout(function() {confirmInfoCard.removeChild(infoCard)},2000);
+                    setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000)
                 }
                 return product
             }
@@ -158,15 +169,14 @@ if (newProduct.quantity > 100){
                 let infoCard = document.createElement("p")
                 let confirmInfoCard = document.getElementById("addToCart")
                 confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
-                setTimeout(function() {confirmInfoCard.removeChild(infoCard)},2000);
+                setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000);
             }
     }
     
 //--Mise à jour des informations du panier : Quantité affichée à côté du mot panier dans le Header
-    let updateNumberProductInCartAfterClick = () => {
+    const updateNumberProductInCartAfterClick = () => {
 
         let productsInCart = JSON.parse(localStorage.getItem("cart"))
-        console.log("Et maintenant le panier contient :", productsInCart, "références")
         let numberProductInCart = 0
         
         if (productsInCart == null){
@@ -188,6 +198,7 @@ if (newProduct.quantity > 100){
         let displayUpdateCart = () => {
             let updateInfoCart = document.getElementsByTagName("p")[0];
             updateInfoCart.innerText = `: ${numberProductInCart} canapés`
+            console.log("Maintenant, le panier contient :" ,numberProductInCart, "canapés")
             }
             displayUpdateCart()
         }
