@@ -272,7 +272,7 @@ const formValidateAndCheck = async (panierDisplay) => {
 
 //--Si toutes les données saisies dans le formulaire sont exactes (vérifiées par les RegExps ci-dessus)
         if(firstNameCheck() && lastNameCheck() && addressCheck() && cityCheck() && emailCheck()){
-            console.log("ok")
+
 //Récupération des données saisies dans le formaulaire
 let firstName = document.getElementById("firstName").value
 const lastName = document.getElementById("lastName").value
@@ -281,12 +281,14 @@ const city = document.getElementById("city").value
 const email = document.getElementById("email").value
 
 //--Récupération des ids produits
-const idProducts = JSON.parse(localStorage.getItem("cart"))
-console.log("Contenu du panier :", idProducts)
-let products = []
-for (l = 0; l < idProducts.length; l++){
-    products.push(idProducts[l]._id)
-}
+    const idProducts = JSON.parse(localStorage.getItem("cart"))
+    console.log("Contenu du panier :", idProducts)
+        let products = []
+        for (l = 0; l < idProducts.length; l++) {
+            if(products.includes(idProducts[l]._id) == false){
+                products.push(idProducts[l]._id)
+            }
+        }
 console.log("Ids des produits à envoyer au server :", products)
 
 //--Création du contact
@@ -309,7 +311,7 @@ const sendOrderToServer01 = fetch("http://localhost:3000/api/products/order", {
     body: JSON.stringify({contact, products})
     }
 )
-
+console.log(products)
 //--Voir le résultat du server dans la console grâce à la promesse
 sendOrderToServer01.then(async(response)=> {
     try{
@@ -324,7 +326,7 @@ sendOrderToServer01.then(async(response)=> {
                 console.log("Réponse produit du serveur :",contain.products)
 
 //--Redirection vers la page confirmation de la commande
-                window.location.href = `confirmation.html?orderID=${contain.orderId}`
+                 window.location.href = `confirmation.html?orderID=${contain.orderId}`
                   }
             else{
                 console.log(`Réponse du server : ${response.status} `)

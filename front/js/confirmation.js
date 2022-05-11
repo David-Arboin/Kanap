@@ -4,7 +4,7 @@ console.log("Récupération de l'URL de la page :", urlSearchParams);
 
 //--Récupérartion de l'id du produit
 const orderId = urlSearchParams.get("orderID");
-console.log("L'id de la comande renyée par le server est :", orderId);
+console.log("L'id de la commande renvoyée par le server est :", orderId);
 
 //--Affichage de l'id ed la commande renvoyée par le server
 const displayOrderId = document.getElementById("orderId")
