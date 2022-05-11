@@ -19,7 +19,6 @@ const updateNumberProductInCart = () => {
         let displayUpdateCart = () => {
             let sectionCart = document.getElementsByTagName("ul")[1];
             let updateInfoCart = document.createElement("p");
-            console.log(updateInfoCart)
             sectionCart.appendChild(updateInfoCart);
             updateInfoCart.innerText = ": vide";
             }
@@ -85,6 +84,15 @@ const displayPageProduct = async () => {
 }
 displayPageProduct() //--Exécution de la fonction displayPageProduct
 
+//--Initialisation de la quantité à 1 sur le bouton 'Nombre d'article(s) (1-100)' au moment de l'ouverture de la page sinon 0 est par défaut
+document.getElementById("quantity").value = 1
+
+//--Déclaration des constantes d'alertes si aucune couleur et/ou quantité n'a été saisie
+let alertColor = document.createElement("p")
+let displayAlertColor = document.getElementsByClassName("item__content__settings__color")[0]
+let alertQuantity = document.createElement("p")
+let displayAlertQuantity = document.getElementsByClassName("item__content__settings__quantity")[0]
+
 //*****************Ecoute du click sur Ajouter au panier
 document.getElementById("addToCart").addEventListener("click", addToCart)
 
@@ -103,24 +111,46 @@ function addToCart() {//addToCart
     }
 
 //--Si la couleur ou la quantité n'est pas choisie, le client est avertit
-    if (newProduct.color === ""){
-        document.getElementById("colors").style.backgroundColor = "green"
-    }
-    if (newProduct.color != ""){
-        document.getElementById("colors").style.backgroundColor = "#3B3B3B"
-    }
-    if (newProduct.quantity == 0){
-        document.getElementById("quantity").style.backgroundColor = "green"
-    }
-    if (newProduct.quantity > 0){
-        document.getElementById("quantity").style.backgroundColor = "#3B3B3B"
+    function alertsColor () {
+
+        if (newProduct.color === ""){
+            document.getElementById("colors").style.backgroundColor = "red"
+            displayAlertColor.appendChild(alertColor).innerHTML = "X Veuillez sélectionner une couleur X"
+            alertColor.style.color = "red"
+            alertColor.style.backgroundColor = "black"
+            alertColor.style.borderRadius = "20px"
+            alertColor.style.padding = "2px 6px 2px 6px"
+
+        }
+        else if (newProduct.color != "" && displayAlertColor.getElementsByTagName("p").length != 0) {
+            document.getElementById("colors").style.backgroundColor = "#3B3B3B"
+            displayAlertColor.removeChild(alertColor)
+        }
     }
 
+    function alertsQuantity () {
+
+        if (newProduct.quantity == 0){
+            document.getElementById("quantity").style.backgroundColor = "red"
+            displayAlertQuantity.appendChild(alertQuantity).innerHTML = "X Veuillez sélectionner une quantité X"
+            alertQuantity.style.color = "red"
+            alertQuantity.style.backgroundColor = "black"
+            alertQuantity.style.borderRadius = "20px"
+            alertQuantity.style.padding = "2px 6px 2px 6px"
+        }
+        else if (newProduct.quantity > 0 && displayAlertQuantity.getElementsByTagName("p").length != 0) {
+            document.getElementById("quantity").style.backgroundColor = "#3B3B3B"
+            displayAlertQuantity.removeChild(alertQuantity)
+        }
+    }
+    alertsColor()
+    alertsQuantity()
+
 //--Si la quantité saisie est supérieure à 100, elle est automatiquement ramenée à 100
-if (newProduct.quantity > 100){
-    document.getElementById("quantity").value = 100
-    newProduct.quantity = 100
-}
+    if (newProduct.quantity > 100){
+        document.getElementById("quantity").value = 100
+        newProduct.quantity = 100
+    }
 
 //--Récupérer le contenu du panier
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
@@ -135,18 +165,18 @@ if (newProduct.quantity > 100){
         let infoCard = document.createElement("p")
         let confirmInfoCard = document.getElementById("addToCart")
         confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
-        setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000);
+        setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000)
     }
 
-//--Si le panier contient un produit identique
+//--Si le panier contient un produit identique (même id et même couleur)
 //--Et qu'une couleur et une quantité ont été sélectionnées sur la page courante
-//--Et que la quantité saisie et différente de celle déjà dans le panier, on met sa quantité à jour
-    else if ((productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color) && newProduct.color != "" && newProduct.quantity > 0)){
+//--On ajoute sa quantité à celle du panier
+    else if ((productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color) && newProduct.color != "")){
 
-            console.log("Ce canapé est déjà dans le panier,nous mettrons sa quantité à jour si nécessaire")
+            console.log("Ce canapé est déjà dans le panier, sa quantité vient d'être mise à jour")
             productsInCart.map(product => {
-                if (product._id === newProduct._id && product.color === newProduct.color  && product.quantity != newProduct.quantity) {
-                    product.quantity = newProduct.quantity
+                if (product._id === newProduct._id && product.color === newProduct.color) {
+                    product.quantity = parseInt(newProduct.quantity) + parseInt(product.quantity)
                     localStorage.setItem("cart", JSON.stringify(productsInCart))
 
 //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
