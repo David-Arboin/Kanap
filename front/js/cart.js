@@ -30,7 +30,7 @@ document.getElementById("cart__items").innerHTML = productsInCart.map((products)
 </article>`
 ).join("")
 }
-panierDisplay();
+panierDisplay()
 
 //****************Affichage et calcul du nombre d'aricles et du prix total lors de l'ouverture de la page
 let totalPriceByProduct = 0
@@ -90,16 +90,16 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
         console.log("De couleur :", retrieveColorProductToNewQuantity)
 
 //--Récupération du produit dans le panier
-        let productWhithNewQuantity = () => {
-                for (j = 0; j < productsInCart.length; j++) {
-                    if (productsInCart[j].name == retrieveNameProductToNewQuantity && productsInCart[j].color == retrieveColorProductToNewQuantity) {
-                        productsInCart[j].quantity = retrieveNewQuantity
-                }
-            }
-//--Recalcul du prix total du panier
-            }
+let productWhithNewQuantity = () => {
+    for (j = 0; j < productsInCart.length; j++) {
+        if (productsInCart[j].name == retrieveNameProductToNewQuantity && productsInCart[j].color == retrieveColorProductToNewQuantity) {
+            productsInCart[j].quantity = retrieveNewQuantity
+        }
+    }
+}
 productWhithNewQuantity()
 
+//--Recalcul du prix total du panier
 let totalPriceByProduct = 0
 let totalPrice = 0
 let totalQuantityByProduct = 0

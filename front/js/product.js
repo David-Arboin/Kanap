@@ -41,7 +41,6 @@ const updateNumberProductInCart = () => {
             displayUpdateCart()
         }
 }
-updateNumberProductInCart()
 
 //--Appel des données liées au produits de la page actuelle
 //--Méthode 1
@@ -82,7 +81,7 @@ const displayPageProduct = async () => {
         optionColors.value = `${dataProduct.colors[i]}`
     }
 }
-displayPageProduct() //--Exécution de la fonction displayPageProduct
+
 
 //--Initialisation de la quantité à 1 sur le bouton 'Nombre d'article(s) (1-100)' au moment de l'ouverture de la page sinon 0 est par défaut
 document.getElementById("quantity").value = 1
@@ -120,6 +119,7 @@ function addToCart() {//addToCart
             alertColor.style.backgroundColor = "black"
             alertColor.style.borderRadius = "20px"
             alertColor.style.padding = "2px 6px 2px 6px"
+            alertColor.style.textAlign = "center"
 
         }
         else if (newProduct.color != "" && displayAlertColor.getElementsByTagName("p").length != 0) {
@@ -137,6 +137,7 @@ function addToCart() {//addToCart
             alertQuantity.style.backgroundColor = "black"
             alertQuantity.style.borderRadius = "20px"
             alertQuantity.style.padding = "2px 6px 2px 6px"
+            alertQuantity.style.textAlign = "center"
         }
         else if (newProduct.quantity > 0 && displayAlertQuantity.getElementsByTagName("p").length != 0) {
             document.getElementById("quantity").style.backgroundColor = "#3B3B3B"
@@ -232,5 +233,7 @@ function addToCart() {//addToCart
             }
             displayUpdateCart()
         }
-    updateNumberProductInCartAfterClick()
+        updateNumberProductInCartAfterClick()
 }
+updateNumberProductInCart()
+displayPageProduct()
