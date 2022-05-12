@@ -56,7 +56,6 @@ function displayTotalPrice () {
         console.log("Nombre d'articles au moment de l'ouverture de la page :", totalProducts)
     }
 
-
 //**************** Mise à jour du nombre d'article et du prix total lors de la saisie d'une nouvelle quantité depuis les petites flèches
 const newTotalByNewQuantityByArrow = async (panierDisplay) => {
     await panierDisplay
@@ -66,26 +65,20 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
     console.log("Liste des boutons 'quantités' :", newQuantities)
 
 //--Ecoute du clik
-    newQuantities.forEach((newQuantity) => {newQuantity.addEventListener("click",() => {
+    newQuantities.forEach((newQuantity) => {newQuantity.addEventListener("change",() => {
 
 //--Récupérartion de la nouvelle quantité saisie
         let retrieveNewQuantity = newQuantity.value
         console.log("Une nouvelle quantité vient d'être saisie :", retrieveNewQuantity)
 
-//--Si la nouvelle quantité est supérieure à 100, on la corrige à 100
-        if (retrieveNewQuantity > 100){
-            document.getElementById("text-field-container").value = 100
-            retrieveNewQuantity = 100
-        }
-
 //--Récupérartion des données liées au produit
         let retrieveProductToNewQuantity = newQuantity.closest("article")
 
-//--Récupérartion du nom du produit à supprimer
+//--Récupérartion du nom du produit
         let retrieveNameProductToNewQuantity = retrieveProductToNewQuantity.querySelector("h2").innerText
         console.log("Elle concerne le canapé :", retrieveNameProductToNewQuantity)
 
-//--Récupérartion de la couleur du produit à supprimer
+//--Récupérartion de la couleur du produit
         let retrieveColorProductToNewQuantity = retrieveProductToNewQuantity.querySelector("p").innerText
         console.log("De couleur :", retrieveColorProductToNewQuantity)
 
@@ -104,6 +97,7 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
     let totalPrice = 0
     let totalQuantityByProduct = 0
     let totalQuantity = 0
+
     let displayTotalPrice = () => {
         for (k = 0; k < productsInCart.length; k++) {
             if (productsInCart[k].color != "" && productsInCart[k].quantity > 0) {
@@ -196,7 +190,7 @@ const removeProduct = async (panierDisplay) => {
 
 //*****************Formulaire
 
-//--Contrôle de la validité du prénom
+//--Contrôle de validité du prénom
 function firstNameCheck() {
     const firstName = document.getElementById("firstName")
         if(/^[A-Za-z\-\ë]{3,20}$/.test(firstName.value)){
@@ -210,7 +204,7 @@ function firstNameCheck() {
             }
 
 
-//--Contrôle de la validité du nom
+//--Contrôle de validité du nom
 function lastNameCheck() {
     const lastName = document.getElementById("lastName")
         if(/^[A-Za-z\-\ë]{3,20}$/.test(lastName.value)){
@@ -223,7 +217,7 @@ function lastNameCheck() {
             }
 
     
-//--Contrôle de la validité de l'adresse
+//--Contrôle de validité de l'adresse
 function addressCheck() {
     const address = document.getElementById("address")
         if(/./g.test(address.value)){
@@ -235,7 +229,7 @@ function addressCheck() {
                 }
             } 
 
-//--Contrôle de la validité de la ville
+//--Contrôle de validité de la ville
 function cityCheck() {
     const city = document.getElementById("city")
         if(/^[A-Za-z\-\ë]{3,20}$/.test(city.value)){
@@ -248,7 +242,7 @@ function cityCheck() {
             }
 
 
-//--Contrôle de la validité du email
+//--Contrôle de validité de l'email
 function emailCheck() {
     const email = document.getElementById("email")
         if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email.value)){
@@ -273,70 +267,70 @@ const formValidateAndCheck = async (panierDisplay) => {
         if(firstNameCheck() && lastNameCheck() && addressCheck() && cityCheck() && emailCheck()){
 
 //Récupération des données saisies dans le formaulaire
-let firstName = document.getElementById("firstName").value
-const lastName = document.getElementById("lastName").value
-const address = document.getElementById("address").value
-const city = document.getElementById("city").value
-const email = document.getElementById("email").value
+            let firstName = document.getElementById("firstName").value
+            const lastName = document.getElementById("lastName").value
+            const address = document.getElementById("address").value
+            const city = document.getElementById("city").value
+            const email = document.getElementById("email").value
 
 //--Récupération des ids produits
-    const idProducts = JSON.parse(localStorage.getItem("cart"))
-    console.log("Contenu du panier :", idProducts)
-        let products = []
-        for (l = 0; l < idProducts.length; l++) {
-            if(products.includes(idProducts[l]._id) == false){
-                products.push(idProducts[l]._id)
-            }
-        }
-console.log("Ids des produits à envoyer au server :", products)
+            const idProducts = JSON.parse(localStorage.getItem("cart"))
+            console.log("Contenu du panier :", idProducts)
+                let products = []
+                for (l = 0; l < idProducts.length; l++) {
+                    if(products.includes(idProducts[l]._id) == false){
+                        products.push(idProducts[l]._id)
+                    }
+                }
+        console.log("Ids des produits à envoyer au server :", products)
 
 //--Création du contact
-let contact = 
-    {
-      "firstName": firstName,
-      "lastName": lastName,
-      "address": address,
-      "city": city,
-      "email": email,
-    }
-console.log("Fiche du contact :", contact)
+            let contact = 
+                {
+                "firstName": firstName,
+                "lastName": lastName,
+                "address": address,
+                "city": city,
+                "email": email,
+                }
+            console.log("Fiche du contact :", contact)
 
 //--Envoi de la commande sur le server
-const sendOrderToServer01 = fetch("http://localhost:3000/api/products/order", {
-    method: "POST",
-    headers: {
-        "Content-Type" : "application/json"
-        },
-    body: JSON.stringify({contact, products})
-    }
-)
-console.log(products)
+            const sendOrderToServer01 = fetch("http://localhost:3000/api/products/order", {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                    },
+                body: JSON.stringify({contact, products})
+                }
+            )
+            console.log(products)
 //--Voir le résultat du server dans la console grâce à la promesse
-sendOrderToServer01.then(async(response)=> {
-    try{
-        const contain = await response.json()
-        console.log("Réponse du server", contain)
+        sendOrderToServer01.then(async(response)=> {
+            try{
+                const contain = await response.json()
+                console.log("Réponse du server", contain)
 
-            if(response.ok){
-                console.log(`Résultat de response du server : ${response.ok}`)
-                
-//--Récupération de l'id de la réponse du server
-                console.log("id de la réponse du server :",contain.orderId)
-                console.log("Réponse produit du serveur :",contain.products)
+                    if(response.ok){
+                        console.log(`Résultat de response du server : ${response.ok}`)
+                        
+        //--Récupération de l'id de la réponse du server
+                        console.log("id de la réponse du server :",contain.orderId)
+                        console.log("Réponse produit du serveur :",contain.products)
 
-//--Redirection vers la page confirmation de la commande
-                 window.location.href = `confirmation.html?orderID=${contain.orderId}`
-                  }
-            else{
-                console.log(`Réponse du server : ${response.status} `)
-                alert(`Problème avec le serveru : erreur ${response.status} `)
-            }
-        }
-//--Si la promesse n'est pas résolue, elle sera rejetée - Gestion des erreurs
-     catch(e){
-        console.log("ERREUR qui vient du catch()")
-        console.log(e)
-        alert(`ERREUR qui vient du catch() : ${e}`)
+        //--Redirection vers la page confirmation de la commande
+                        window.location.href = `confirmation.html?orderID=${contain.orderId}`
+                            }
+                    else{
+                        console.log(`Réponse du server : ${response.status} `)
+                        alert(`Problème avec le serveru : erreur ${response.status} `)
+                    }
+                }
+        //--Si la promesse n'est pas résolue, elle sera rejetée - Gestion des erreurs
+            catch(e){
+                console.log("ERREUR qui vient du catch()")
+                console.log(e)
+                alert(`ERREUR qui vient du catch() : ${e}`)
             }
         }
     )
@@ -345,21 +339,22 @@ sendOrderToServer01.then(async(response)=> {
         else {
             if(firstNameCheck() != true) {
                 document.getElementById("firstNameErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
-            }
+                }
             if(lastNameCheck() != true) {
                 document.getElementById("lastNameErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
-            }
+                }
             if(addressCheck() != true) {
             document.getElementById("addressErrorMsg").innerHTML = "Les symboles spéciaux ne sont pas autorisés"
-            }
+                }
             if(cityCheck() != true) {
             document.getElementById("cityErrorMsg").innerHTML = "Les chiffres et les symboles ne sont pas autorisés \n Ne pas dépasser 20 caractères, minimum 3 caractères"
-            }
+                }
             if(emailCheck() != true) {
             document.getElementById("emailErrorMsg").innerHTML = "Ceci n'est pas une adresse mail valide"
+                }
             }
         }
-})
+    )
 }
 panierDisplay()
 displayTotalPrice ()

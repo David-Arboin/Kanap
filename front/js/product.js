@@ -42,7 +42,7 @@ const updateNumberProductInCart = () => {
         }
 }
 
-//--Appel des données liées au produits de la page actuelle
+//********************Appel des données liées au produits de la page actuelle
 //--Méthode 1
   const fetchProduct = async () => {
     const res = await fetch(`http://localhost:3000/api/products/${idProduct}`)
@@ -81,7 +81,6 @@ const displayPageProduct = async () => {
         optionColors.value = `${dataProduct.colors[i]}`
     }
 }
-
 
 //--Initialisation de la quantité à 1 sur le bouton 'Nombre d'article(s) (1-100)' au moment de l'ouverture de la page sinon 0 est par défaut
 document.getElementById("quantity").value = 1
@@ -200,7 +199,7 @@ function addToCart() {//addToCart
                 let infoCard = document.createElement("p")
                 let confirmInfoCard = document.getElementById("addToCart")
                 confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
-                setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000);
+                setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000)
             }
     }
     
@@ -212,11 +211,11 @@ function addToCart() {//addToCart
         
         if (productsInCart == null){
             let displayUpdateCart = () => {
-                let sectionCart = document.getElementsByTagName("ul")[1];
-                let updateInfoCart = document.createElement("p");
+                let sectionCart = document.getElementsByTagName("ul")[1]
+                let updateInfoCart = document.createElement("p")
                 console.log(updateInfoCart)
-                sectionCart.appendChild(updateInfoCart);
-                updateInfoCart.innerText = ": vide";
+                sectionCart.appendChild(updateInfoCart)
+                updateInfoCart.innerText = ": vide"
                 }
                 displayUpdateCart()
         }
@@ -227,7 +226,7 @@ function addToCart() {//addToCart
         }
     //--Affichage du nombre de canapés dans le panier au moment de l'ouverture de la page
         let displayUpdateCart = () => {
-            let updateInfoCart = document.getElementsByTagName("p")[0];
+            let updateInfoCart = document.getElementsByTagName("p")[0]
             updateInfoCart.innerText = `: ${numberProductInCart} canapés`
             console.log("Maintenant, le panier contient :" ,numberProductInCart, "canapés")
             }
