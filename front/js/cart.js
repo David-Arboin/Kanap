@@ -30,7 +30,7 @@ document.getElementById("cart__items").innerHTML = productsInCart.map((products)
 </article>`
 ).join("")
 }
-panierDisplay()
+
 
 //****************Affichage et calcul du nombre d'aricles et du prix total lors de l'ouverture de la page
 let totalPriceByProduct = 0
@@ -55,7 +55,7 @@ function displayTotalPrice () {
         totalQuantity.innerText = `${totalProducts}`
         console.log("Nombre d'articles au moment de l'ouverture de la page :", totalProducts)
     }
-displayTotalPrice ()
+
 
 //**************** Mise à jour du nombre d'article et du prix total lors de la saisie d'une nouvelle quantité depuis les petites flèches
 const newTotalByNewQuantityByArrow = async (panierDisplay) => {
@@ -90,48 +90,48 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
         console.log("De couleur :", retrieveColorProductToNewQuantity)
 
 //--Récupération du produit dans le panier
-let productWhithNewQuantity = () => {
-    for (j = 0; j < productsInCart.length; j++) {
-        if (productsInCart[j].name == retrieveNameProductToNewQuantity && productsInCart[j].color == retrieveColorProductToNewQuantity) {
-            productsInCart[j].quantity = retrieveNewQuantity
+    let productWhithNewQuantity = () => {
+        for (j = 0; j < productsInCart.length; j++) {
+            if (productsInCart[j].name == retrieveNameProductToNewQuantity && productsInCart[j].color == retrieveColorProductToNewQuantity) {
+                productsInCart[j].quantity = retrieveNewQuantity
+            }
         }
     }
-}
-productWhithNewQuantity()
+    productWhithNewQuantity()
 
-//--Recalcul du prix total du panier
-let totalPriceByProduct = 0
-let totalPrice = 0
-let totalQuantityByProduct = 0
-let totalQuantity = 0
-let displayTotalPrice = () => {
-    for (k = 0; k < productsInCart.length; k++) {
-        if (productsInCart[k].color != "" && productsInCart[k].quantity > 0) {
-            totalPriceByProduct = parseInt(productsInCart[k].price) * parseInt(productsInCart[k].quantity)
-            totalPrice = totalPrice + totalPriceByProduct
+    //--Recalcul du prix total du panier
+    let totalPriceByProduct = 0
+    let totalPrice = 0
+    let totalQuantityByProduct = 0
+    let totalQuantity = 0
+    let displayTotalPrice = () => {
+        for (k = 0; k < productsInCart.length; k++) {
+            if (productsInCart[k].color != "" && productsInCart[k].quantity > 0) {
+                totalPriceByProduct = parseInt(productsInCart[k].price) * parseInt(productsInCart[k].quantity)
+                totalPrice = totalPrice + totalPriceByProduct
 
-            totalQuantityByProduct = parseInt(productsInCart[k].quantity)
-            totalQuantity = totalQuantity + totalQuantityByProduct
+                totalQuantityByProduct = parseInt(productsInCart[k].quantity)
+                totalQuantity = totalQuantity + totalQuantityByProduct
+            }
         }
-      }
-//--Affichage dynamique du prix total
-      let displayNewTotalPrice = document.getElementById("totalPrice")
-      displayNewTotalPrice.innerText = `${totalPrice}`
-      console.log("Mise à jour du prix total :", totalPrice, "€")
+    //--Affichage dynamique du prix total
+        let displayNewTotalPrice = document.getElementById("totalPrice")
+        displayNewTotalPrice.innerText = `${totalPrice}`
+        console.log("Mise à jour du prix total :", totalPrice, "€")
 
-//--Affichage dynamique de la quantité totale d'article
-      let displayNewTotalQuantity = document.getElementById("totalQuantity")
-      displayNewTotalQuantity.innerText = `${totalQuantity}`
-      console.log("Mise à jour du nombre total d'article dans le panier :", totalQuantity)
-    }
-displayTotalPrice()
-    localStorage.setItem("cart", JSON.stringify(productsInCart))
+    //--Affichage dynamique de la quantité totale d'article
+        let displayNewTotalQuantity = document.getElementById("totalQuantity")
+        displayNewTotalQuantity.innerText = `${totalQuantity}`
+        console.log("Mise à jour du nombre total d'article dans le panier :", totalQuantity)
+        }
+    displayTotalPrice()
+        localStorage.setItem("cart", JSON.stringify(productsInCart))
                 }
             )
         }
     )
 }
-newTotalByNewQuantityByArrow()
+
 
 //**************** Suppression d'un produit
 const removeProduct = async (panierDisplay) => {
@@ -192,7 +192,7 @@ const removeProduct = async (panierDisplay) => {
         }
     )
 }
-removeProduct()
+
 
 //*****************Formulaire
 
@@ -208,7 +208,7 @@ function firstNameCheck() {
             return false
                 }
             }
-firstNameCheck()
+
 
 //--Contrôle de la validité du nom
 function lastNameCheck() {
@@ -221,7 +221,7 @@ function lastNameCheck() {
             return false
                 }
             }
-lastNameCheck()
+
     
 //--Contrôle de la validité de l'adresse
 function addressCheck() {
@@ -234,7 +234,6 @@ function addressCheck() {
             return false
                 }
             } 
-addressCheck()
 
 //--Contrôle de la validité de la ville
 function cityCheck() {
@@ -247,7 +246,7 @@ function cityCheck() {
             return false
                 }
             }
-cityCheck()
+
 
 //--Contrôle de la validité du email
 function emailCheck() {
@@ -260,7 +259,7 @@ function emailCheck() {
             return false
                 }
             }
-emailCheck()
+
 
 //**************Conditions d'acceptation du formulaire
 const formValidateAndCheck = async (panierDisplay) => {
@@ -362,4 +361,13 @@ sendOrderToServer01.then(async(response)=> {
         }
 })
 }
+panierDisplay()
+displayTotalPrice ()
+newTotalByNewQuantityByArrow()
+removeProduct()
+firstNameCheck()
+lastNameCheck()
+addressCheck()
+cityCheck()
+emailCheck()
 formValidateAndCheck()
