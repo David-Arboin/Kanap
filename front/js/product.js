@@ -152,6 +152,12 @@ function addToCart() {//addToCart
         newProduct.quantity = 100
     }
 
+//--Si la quantité saisie est négative, elle est automatiquement normée
+    if (newProduct.quantity < 0){
+        document.getElementById("quantity").value = Math.sqrt(newProduct.quantity * newProduct.quantity)
+        newProduct.quantity = Math.sqrt(newProduct.quantity * newProduct.quantity)
+    }
+
 //--Récupérer le contenu du panier
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
 
@@ -192,7 +198,7 @@ function addToCart() {//addToCart
 //--Si le produit est nouveau, on l'ajoute
         else {
             if (newProduct.color != "" && newProduct.quantity > 0){
-                productsInCart.push(newProduct)
+                productsInCart = [...productsInCart, newProduct]
                 localStorage.setItem("cart", JSON.stringify(productsInCart))
         
         //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
