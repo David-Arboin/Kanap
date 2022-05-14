@@ -1,4 +1,4 @@
-// Récupération des données de l'URL
+// Récupération des données de l'API
 // Méthode 1
 const fetchProducts = async () => {
     const res = await fetch("http://localhost:3000/api/products")
