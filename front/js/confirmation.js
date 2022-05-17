@@ -6,7 +6,7 @@ console.log("Récupération de l'URL de la page :", urlSearchParams);
 const orderId = urlSearchParams.get("orderID");
 console.log("L'id de la commande renvoyée par le server est :", orderId);
 
-//--Affichage de l'id ed la commande renvoyée par le server
+//--Affichage de l'id de la commande renvoyée par le server
 const displayOrderId = document.getElementById("orderId")
 displayOrderId.innerText = orderId
 
