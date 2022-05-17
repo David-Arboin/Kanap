@@ -138,7 +138,7 @@ function addToCart() {//addToCart
             alertQuantity.style.padding = "2px 6px 2px 6px"
             alertQuantity.style.textAlign = "center"
         }
-        else if (newProduct.quantity > 0 && displayAlertQuantity.getElementsByTagName("p").length != 0) {
+        else if (newProduct.quantity != 0 && displayAlertQuantity.getElementsByTagName("p").length != 0) {
             document.getElementById("quantity").style.backgroundColor = "#3B3B3B"
             displayAlertQuantity.removeChild(alertQuantity)
         }
@@ -162,7 +162,7 @@ function addToCart() {//addToCart
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
 
 //---Premier produit dans le panier s'il n'y en a pas déjà un
-    if (productsInCart == null && newProduct.color != "" && newProduct.quantity > 0) {
+    if (productsInCart === null && newProduct.color !== "" && newProduct.quantity > 0) {
         productsInCart = []
         productsInCart.push(newProduct)
         localStorage.setItem("cart", JSON.stringify(productsInCart))
@@ -177,7 +177,7 @@ function addToCart() {//addToCart
 //--Si le panier contient un produit identique (même id et même couleur)
 //--Et qu'une couleur et une quantité ont été sélectionnées sur la page courante
 //--On ajoute sa quantité à celle du panier
-    else if ((productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color) && newProduct.color != "")){
+    else if ((productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color) && newProduct.color !== "" && newProduct.quantity != 0)){
 
             console.log("Ce canapé est déjà dans le panier, sa quantité vient d'être mise à jour")
             productsInCart.map(product => {
