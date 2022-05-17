@@ -94,14 +94,14 @@ let displayAlertQuantity = document.getElementsByClassName("item__content__setti
 //*****************Ecoute du click sur Ajouter au panier
 document.getElementById("addToCart").addEventListener("click", addToCart)
 
-//--Déclration de la fonction de remplissage du panier
+//--Déclaration de la fonction de remplissage du panier
 function addToCart() {//addToCart
 
 //--Récupération des données de la page produit pour les envoyers dans le panier s'il n'y est pas déjà
     let newProduct = {
     _id : dataProduct._id, 
     color : document.getElementById("colors").value, 
-    quantity : document.getElementById("quantity").value,
+    quantity : parseInt(document.getElementById("quantity").value),
     image : dataProduct.imageUrl,
     alt : dataProduct.altTxt,
     name : dataProduct.name,
@@ -129,9 +129,9 @@ function addToCart() {//addToCart
 
     function alertsQuantity () {
 
-        if (newProduct.quantity == 0){
+        if (newProduct.quantity === 0 || newProduct.quantity > 100 || newProduct.quantity < 0){
             document.getElementById("quantity").style.backgroundColor = "red"
-            displayAlertQuantity.appendChild(alertQuantity).innerHTML = "X Veuillez sélectionner une quantité X"
+            displayAlertQuantity.appendChild(alertQuantity).innerHTML = "X Veuillez sélectionner une quantité comprise entre 1 et 100 X"
             alertQuantity.style.color = "red"
             alertQuantity.style.backgroundColor = "black"
             alertQuantity.style.borderRadius = "20px"
@@ -145,18 +145,6 @@ function addToCart() {//addToCart
     }
     alertsColor()
     alertsQuantity()
-
-//--Si la quantité saisie est supérieure à 100, elle est automatiquement ramenée à 100
-    if (newProduct.quantity > 100){
-        document.getElementById("quantity").value = 100
-        newProduct.quantity = 100
-    }
-
-//--Si la quantité saisie est négative, elle est automatiquement normée
-    if (newProduct.quantity < 0){
-        document.getElementById("quantity").value = Math.sqrt(newProduct.quantity * newProduct.quantity)
-        newProduct.quantity = Math.sqrt(newProduct.quantity * newProduct.quantity)
-    }
 
 //--Récupérer le contenu du panier
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
@@ -177,11 +165,34 @@ function addToCart() {//addToCart
 //--Si le panier contient un produit identique (même id et même couleur)
 //--Et qu'une couleur et une quantité ont été sélectionnées sur la page courante
 //--On ajoute sa quantité à celle du panier
-    else if ((productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color) && newProduct.color !== "" && newProduct.quantity != 0)){
+    else if ((productsInCart.some(product => product._id === newProduct._id && product.color === newProduct.color) 
+                && newProduct.color !== "" && newProduct.quantity != 0 && newProduct.quantity > 0 && newProduct.quantity < 101)){
 
             console.log("Ce canapé est déjà dans le panier, sa quantité vient d'être mise à jour")
             productsInCart.map(product => {
                 if (product._id === newProduct._id && product.color === newProduct.color) {
+                    if ((parseInt(newProduct.quantity) + parseInt(product.quantity)) > 100){
+                        document.getElementById("quantity").style.backgroundColor = "red"
+                        displayAlertQuantity.appendChild(alertQuantity).innerHTML = 
+                        `X Veuillez sélectionner une quantité maximum de ${100 - parseInt(product.quantity)} articles sinon vote panier contiendra plus de 100 exemplaires X`
+                        alertQuantity.style.color = "red"
+                        alertQuantity.style.backgroundColor = "black"
+                        alertQuantity.style.borderRadius = "20px"
+                        alertQuantity.style.padding = "2px 6px 2px 6px"
+                        alertQuantity.style.textAlign = "center"
+                    }
+                    if (parseInt(product.quantity) == 100){
+                        document.getElementById("quantity").style.backgroundColor = "red"
+                        displayAlertQuantity.appendChild(alertQuantity).innerHTML = 
+                        `X Votre panier contient déjà la quantité maximale pour ce modèle X`
+                        alertQuantity.style.color = "red"
+                        alertQuantity.style.backgroundColor = "black"
+                        alertQuantity.style.borderRadius = "20px"
+                        alertQuantity.style.padding = "2px 6px 2px 6px"
+                        alertQuantity.style.textAlign = "center"
+                    }
+                }
+                if ((parseInt(newProduct.quantity) + parseInt(product.quantity)) < 101){
                     product.quantity = parseInt(newProduct.quantity) + parseInt(product.quantity)
                     localStorage.setItem("cart", JSON.stringify(productsInCart))
 
@@ -190,14 +201,14 @@ function addToCart() {//addToCart
                     let confirmInfoCard = document.getElementById("addToCart")
                     confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
                     setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000)
-                }
+                }             
                 return product
             }
         )
     }
 //--Si le produit est nouveau, on l'ajoute
         else {
-            if (newProduct.color != "" && newProduct.quantity > 0){
+            if (newProduct.color != "" && newProduct.quantity != 0 && newProduct.quantity > 0 && newProduct.quantity < 101){
                 productsInCart = [...productsInCart, newProduct]
                 localStorage.setItem("cart", JSON.stringify(productsInCart))
         

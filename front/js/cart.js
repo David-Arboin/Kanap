@@ -66,28 +66,29 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
 
 //--Ecoute du clik
     newQuantities.forEach((newQuantity) => {newQuantity.addEventListener("change",() => {
-
-//--Récupérartion de la nouvelle quantité saisie et ramenée à positive si besoin
-        newQuantity.value = Math.sqrt(newQuantity.value * newQuantity.value)
         
         let retrieveNewQuantity = newQuantity.value
         console.log("Une nouvelle quantité vient d'être saisie :", retrieveNewQuantity)
 
-//--Avertir le client si la quantité saisie est égale à 0
-        if (newQuantity.value == 0){
+//--Avertir le client si la quantité saisie n'est pas comprise entre 0 et 100
+        if (newQuantity.value < 1 || newQuantity.value > 100){
             let alertQuantityEqualZero = document.createElement("p")
-            console.log(alertQuantityEqualZero)
             let text = newQuantity.closest("div").appendChild(alertQuantityEqualZero)
-            let addText = text.innerHTML = " " + "X Veuillez saisir une quantité positivive X"
+            let addText = text.innerHTML = " " + "X Veuillez saisir une quantité conprise enre 0 et 100 X"
             alertQuantityEqualZero.style.color = "red"
             alertQuantityEqualZero.style.marginLeft = "15px"
             alertQuantityEqualZero.style.backgroundColor = "black"
             alertQuantityEqualZero.style.borderRadius = "20px"
             alertQuantityEqualZero.style.padding = "2px 6px 2px 6px"
             alertQuantityEqualZero.style.textAlign = "center"
+
+            if (newQuantity.closest("div").getElementsByTagName("p").length > 2) {
+                let retieveTextAlert = newQuantity.closest("div").lastChild
+                newQuantity.closest("div").removeChild(retieveTextAlert)
             
-        }
-        else if (newQuantity.value > 0 && newQuantity.closest("div").getElementsByTagName("p").length > 1) {
+        }}
+        else {
+            if (newQuantity.value > 0 && newQuantity.closest("div").getElementsByTagName("p").length > 1) {
             let retieveTextAlert = newQuantity.closest("div").lastChild
             console.log(retieveTextAlert)
             newQuantity.closest("div").removeChild(retieveTextAlert)
@@ -142,7 +143,7 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
         }
     displayTotalPrice()
         localStorage.setItem("cart", JSON.stringify(productsInCart))
-                }
+                }}
             )
         }
     )
