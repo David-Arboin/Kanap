@@ -36,7 +36,7 @@ const updateNumberProductInCart = () => {
             let sectionCart = document.getElementsByTagName("ul")[1];
             let updateInfoCart = document.createElement("p");
             sectionCart.appendChild(updateInfoCart);
-            updateInfoCart.innerHTML = `: ${numberProductInCart} canapés`;
+            updateInfoCart.innerHTML = `: ${numberProductInCart} canapé(s)`;
             }
             displayUpdateCart()
         }
@@ -105,7 +105,6 @@ function addToCart() {//addToCart
     image : dataProduct.imageUrl,
     alt : dataProduct.altTxt,
     name : dataProduct.name,
-    price : dataProduct.price
     }
 
 //--Si la couleur ou la quantité n'est pas choisie, le client est avertit
@@ -115,7 +114,7 @@ function addToCart() {//addToCart
             document.getElementById("colors").style.backgroundColor = "red"
             displayAlertColor.appendChild(alertColor).innerHTML = "X Veuillez sélectionner une couleur X"
             alertColor.style.color = "red"
-            alertColor.style.backgroundColor = "black"
+            alertColor.style.backgroundColor = "#FFE4E1"
             alertColor.style.borderRadius = "20px"
             alertColor.style.padding = "2px 6px 2px 6px"
             alertColor.style.textAlign = "center"
@@ -133,7 +132,7 @@ function addToCart() {//addToCart
             document.getElementById("quantity").style.backgroundColor = "red"
             displayAlertQuantity.appendChild(alertQuantity).innerHTML = "X Veuillez sélectionner une quantité comprise entre 1 et 100 X"
             alertQuantity.style.color = "red"
-            alertQuantity.style.backgroundColor = "black"
+            alertQuantity.style.backgroundColor = "#FFE4E1"
             alertQuantity.style.borderRadius = "20px"
             alertQuantity.style.padding = "2px 6px 2px 6px"
             alertQuantity.style.textAlign = "center"
@@ -148,7 +147,7 @@ function addToCart() {//addToCart
 
 //--Récupérer le contenu du panier
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
-
+    console.log(productsInCart)
 //---Premier produit dans le panier s'il n'y en a pas déjà un
     if (productsInCart === null && newProduct.color !== "" && newProduct.quantity > 0) {
         productsInCart = []
@@ -174,7 +173,7 @@ function addToCart() {//addToCart
                     if ((parseInt(newProduct.quantity) + parseInt(product.quantity)) > 100){
                         document.getElementById("quantity").style.backgroundColor = "red"
                         displayAlertQuantity.appendChild(alertQuantity).innerHTML = 
-                        `X Veuillez sélectionner une quantité maximum de ${100 - parseInt(product.quantity)} articles sinon vote panier contiendra plus de 100 exemplaires X`
+                        `X Veuillez sélectionner une quantité maximum de ${100 - parseInt(product.quantity)} articles pour ne pas dépasser la limite de 100 exemplaires X`
                         alertQuantity.style.color = "red"
                         alertQuantity.style.backgroundColor = "black"
                         alertQuantity.style.borderRadius = "20px"
@@ -191,18 +190,19 @@ function addToCart() {//addToCart
                         alertQuantity.style.padding = "2px 6px 2px 6px"
                         alertQuantity.style.textAlign = "center"
                     }
+                    if ((parseInt(newProduct.quantity) + parseInt(product.quantity)) < 101){
+                        product.quantity = parseInt(newProduct.quantity) + parseInt(product.quantity)
+                        localStorage.setItem("cart", JSON.stringify(productsInCart))
+    
+    //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+                        let infoCard = document.createElement("p")
+                        let confirmInfoCard = document.getElementById("addToCart")
+                        confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
+                        setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000)
+                    }             
+                    return product
                 }
-                if ((parseInt(newProduct.quantity) + parseInt(product.quantity)) < 101){
-                    product.quantity = parseInt(newProduct.quantity) + parseInt(product.quantity)
-                    localStorage.setItem("cart", JSON.stringify(productsInCart))
 
-//--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
-                    let infoCard = document.createElement("p")
-                    let confirmInfoCard = document.getElementById("addToCart")
-                    confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
-                    setTimeout(function() {confirmInfoCard.removeChild(infoCard)},1000)
-                }             
-                return product
             }
         )
     }

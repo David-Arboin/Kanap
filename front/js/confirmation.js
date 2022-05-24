@@ -1,3 +1,6 @@
+//***********Page confirmation
+function order () {
+
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
 const urlSearchParams = new URLSearchParams(window.location.search);
 console.log("Récupération de l'URL de la page :", urlSearchParams);
@@ -14,8 +17,7 @@ displayOrderId.innerText = orderId
 const thanks = document.createElement("p")
 displayOrderId.appendChild(thanks).innerHTML = "Merci et à bientôt !"
 
-
 //--Suppression du panier et des données de la commande
 localStorage.clear()
-
-
+}
+order()
