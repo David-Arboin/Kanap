@@ -1,4 +1,7 @@
-// Récupération des données de l'API
+/**
+ * 
+ * @returns Récupération des données de l'API
+ */
 // Méthode 1
 const fetchProducts = async () => {
     const res = await fetch("http://localhost:3000/api/products")
@@ -16,7 +19,9 @@ const fetchProducts = async () => {
      )
 } */
 
-//--Implémentation des données dans la page
+/**
+ * Implémentation des données dans la page
+ */
 // Méthode 1 avec createElement
 const productsDisplay = async () => {
     productsAvailable = await fetchProducts()

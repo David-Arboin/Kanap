@@ -1,5 +1,10 @@
 let productsInCart = JSON.parse(localStorage.getItem("cart"))
 
+/**
+ * 
+ * @returns Récupération des prix associés aux ids de produits
+ */
+function recoveryIdProduct () {
 if (productsInCart == null) {
     let displayPrice = document.getElementById("totalPrice")
     displayPrice.innerText = `0`
@@ -38,10 +43,14 @@ else {
     }
 )
 }
+}
+recoveryIdProduct()
 
 
-
-//**************** Affichage dynamique des canapés sélectionnés
+/**
+ * 
+ * @returns Affichage dynamique des canapés sélectionnés
+ */
 function panierDisplay () {
 
     if (productsInCart == null) {
@@ -136,7 +145,7 @@ function panierDisplay () {
         divSettings.appendChild(divQuantity)
 
         let pQuantity = document.createElement("p")
-        pQuantity.innerText = `Qté : ${productsInCart[i].quantity}`
+        pQuantity.innerText = `Qté : `
         divQuantity.appendChild(pQuantity)
 
         let inputQuantity = document.createElement("input")
@@ -168,6 +177,10 @@ let totalPrice = 0
 let totalCopyByProduct = 0
 let totalProducts = 0
 
+/**
+ * A
+ * @returns ffichage et calcul du nombre d'aricles et du prix total lors de l'ouverture de la page
+ */
 function displayTotalPrice () {
 
     if (productsInCart !== null) {
@@ -189,7 +202,10 @@ function displayTotalPrice () {
     }
 }
 
-//**************** Mise à jour du nombre d'article et du prix total lors de la saisie d'une nouvelle quantité depuis les petites flèches
+/**
+ * 
+ * @returns Mise à jour du nombre d'article et du prix total lors de la saisie d'une nouvelle quantité depuis les petites flèches
+ */ 
 const newTotalByNewQuantityByArrow = () => {
 
 
@@ -283,7 +299,10 @@ const newTotalByNewQuantityByArrow = () => {
     )
 }
 
-//**************** Suppression d'un produit
+/**
+ * 
+ * @returns Suppression d'un produit
+ */ 
 const removeProduct = () => {
 //--Récupération des données du panier
 /*     let productsInCart = JSON.parse(localStorage.getItem("cart")) */
@@ -383,7 +402,9 @@ console.log(productsInCart)
 
 //*****************Formulaire
 
-//--Contrôle de validité du prénom
+/**
+ * @returns Contrôle de validité du prénom
+ */
 function firstNameCheck() {
     const firstName = document.getElementById("firstName")
         if(/^[A-Za-z\-\ë]{3,20}$/.test(firstName.value)){
@@ -397,7 +418,10 @@ function firstNameCheck() {
             }
 
 
-//--Contrôle de validité du nom
+/**
+ * 
+ * @returns Contrôle de validité du nom
+ */
 function lastNameCheck() {
     const lastName = document.getElementById("lastName")
         if(/^[A-Za-z\-\ë]{3,20}$/.test(lastName.value)){
@@ -410,7 +434,10 @@ function lastNameCheck() {
             }
 
     
-//--Contrôle de validité de l'adresse
+/**
+ * 
+ * @returns Contrôle de validité de l'adresse
+ */
 function addressCheck() {
     const address = document.getElementById("address")
         if(/.{3,}$/g.test(address.value)){
@@ -422,7 +449,10 @@ function addressCheck() {
                 }
             } 
 
-//--Contrôle de validité de la ville
+/**
+ * 
+ * @returns Contrôle de validité de la ville
+ */
 function cityCheck() {
     const city = document.getElementById("city")
         if(/^[A-Za-z\-\ë]{3,20}$/.test(city.value)){
@@ -435,7 +465,10 @@ function cityCheck() {
             }
 
 
-//--Contrôle de validité de l'email
+/**
+ * 
+ * @returns Contrôle de validité de l'email
+ */
 function emailCheck() {
     const email = document.getElementById("email")
         if(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email.value)){
@@ -448,7 +481,10 @@ function emailCheck() {
             }
 
 
-//**************Conditions d'acceptation du formulaire
+/**
+ * 
+ * @param {Conditions d'acceptation du formulaire} panierDisplay 
+ */
 const formValidateAndCheck = async (panierDisplay) => {
     await panierDisplay
 

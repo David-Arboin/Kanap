@@ -1,4 +1,7 @@
-//***********Page confirmation
+/**
+ * 
+ * @returns Fonction unique de la page confirmation - Chaque bloc est expliqué
+ */
 function order () {
 
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active

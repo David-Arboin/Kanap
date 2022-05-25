@@ -6,7 +6,10 @@ console.log("Récupération de l'URL de la page :", urlSearchParams)
 const idProduct = urlSearchParams.get("id");
 console.log("L'id du produit est :", idProduct);
 
-//********************Informations du panier : Quantité affichée à côté du mot panier dans le Header au moment de l'ouverture de la page
+/**
+ * 
+ * @returns Informations du panier : Quantité affichée à côté du mot panier dans le Header au moment de l'ouverture de la page
+ */
 const updateNumberProductInCart = () => {
 
 //--Récupération du panier
@@ -42,7 +45,10 @@ const updateNumberProductInCart = () => {
         }
 }
 
-//********************Appel des données liées au produits de la page actuelle
+/**
+ * 
+ * @returns Appel des données liées au produits de la page actuelle
+ */
 //--Méthode 1
   const fetchProduct = async () => {
     const res = await fetch(`http://localhost:3000/api/products/${idProduct}`)
@@ -60,7 +66,10 @@ const updateNumberProductInCart = () => {
      )
 } */
 
-//--Affichage des détails du produit
+/**
+ * 
+ * @returns Affichage des détails du produit
+ */
 const displayPageProduct = async () => {
     dataProduct = await fetchProduct()
 
@@ -94,7 +103,10 @@ let displayAlertQuantity = document.getElementsByClassName("item__content__setti
 //*****************Ecoute du click sur Ajouter au panier
 document.getElementById("addToCart").addEventListener("click", addToCart)
 
-//--Déclaration de la fonction de remplissage du panier
+/**
+ * 
+ * @returns Déclaration de la fonction de remplissage du panier
+ */
 function addToCart() {//addToCart
 
 //--Récupération des données de la page produit pour les envoyers dans le panier s'il n'y est pas déjà
@@ -107,7 +119,10 @@ function addToCart() {//addToCart
     name : dataProduct.name,
     }
 
-//--Si la couleur ou la quantité n'est pas choisie, le client est avertit
+/**
+ * 
+ * @returns Si la couleur ou la quantité n'est pas choisie, le client est avertit
+ */
     function alertsColor () {
 
         if (newProduct.color === ""){
@@ -126,6 +141,10 @@ function addToCart() {//addToCart
         }
     }
 
+/**
+ * 
+ * @returns Prévenir l'utilisateur pour saisie d'une quantité non comprise entre 1 et 100
+ */
     function alertsQuantity () {
 
         if (newProduct.quantity === 0 || newProduct.quantity > 100 || newProduct.quantity < 0){
@@ -220,7 +239,10 @@ function addToCart() {//addToCart
             }
     }
     
-//--Mise à jour des informations du panier : Quantité affichée à côté du mot panier dans le Header
+/**
+ * 
+ * @returns Mise à jour des informations du panier : Quantité affichée à côté du mot panier dans le Header
+ */
     const updateNumberProductInCartAfterClick = () => {
 
         let productsInCart = JSON.parse(localStorage.getItem("cart"))
