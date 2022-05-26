@@ -126,7 +126,9 @@ function addToCart() {//addToCart
     function alertsColor () {
 
         if (newProduct.color === ""){
-            document.getElementById("colors").style.backgroundColor = "red"
+            const colorMessageSvp = document.getElementById("colors")
+            colorMessageSvp.style.backgroundColor = "red"
+            colorMessageSvp.style.color = "white"
             displayAlertColor.appendChild(alertColor).innerHTML = "X Veuillez sélectionner une couleur X"
             alertColor.style.color = "red"
             alertColor.style.backgroundColor = "#FFE4E1"
@@ -136,7 +138,9 @@ function addToCart() {//addToCart
 
         }
         else if (newProduct.color != "" && displayAlertColor.getElementsByTagName("p").length != 0) {
-            document.getElementById("colors").style.backgroundColor = "#3B3B3B"
+            const colorMessageSvp = document.getElementById("colors")
+            colorMessageSvp.style.backgroundColor = "#3B3B3B"
+            colorMessageSvp.style.color = "white"
             displayAlertColor.removeChild(alertColor)
         }
     }
@@ -148,7 +152,9 @@ function addToCart() {//addToCart
     function alertsQuantity () {
 
         if (newProduct.quantity === 0 || newProduct.quantity > 100 || newProduct.quantity < 0){
-            document.getElementById("quantity").style.backgroundColor = "red"
+            const colorErrorQuantity = document.getElementById("quantity")
+            colorErrorQuantity.style.backgroundColor = "red"
+            colorErrorQuantity.style.color = "white"
             displayAlertQuantity.appendChild(alertQuantity).innerHTML = "X Veuillez sélectionner une quantité comprise entre 1 et 100 X"
             alertQuantity.style.color = "red"
             alertQuantity.style.backgroundColor = "#FFE4E1"
@@ -157,7 +163,9 @@ function addToCart() {//addToCart
             alertQuantity.style.textAlign = "center"
         }
         else if (newProduct.quantity != 0 && displayAlertQuantity.getElementsByTagName("p").length != 0) {
-            document.getElementById("quantity").style.backgroundColor = "#3B3B3B"
+            const colorErrorQuantity = document.getElementById("quantity")
+            colorErrorQuantity.style.backgroundColor = "#3B3B3B"
+            colorErrorQuantity.style.color = "white"
             displayAlertQuantity.removeChild(alertQuantity)
         }
     }
@@ -174,6 +182,8 @@ function addToCart() {//addToCart
         localStorage.setItem("cart", JSON.stringify(productsInCart))
 
 //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+        document.getElementById("colors").value = ""
+        document.getElementById("quantity").value = 1
         let infoCard = document.createElement("p")
         let confirmInfoCard = document.getElementById("addToCart")
         confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
@@ -214,6 +224,8 @@ function addToCart() {//addToCart
                         localStorage.setItem("cart", JSON.stringify(productsInCart))
     
     //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+                        document.getElementById("colors").value = ""
+                        document.getElementById("quantity").value = 1
                         let infoCard = document.createElement("p")
                         let confirmInfoCard = document.getElementById("addToCart")
                         confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
@@ -232,6 +244,8 @@ function addToCart() {//addToCart
                 localStorage.setItem("cart", JSON.stringify(productsInCart))
         
         //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+                document.getElementById("colors").value = ""
+                document.getElementById("quantity").value = 1
                 let infoCard = document.createElement("p")
                 let confirmInfoCard = document.getElementById("addToCart")
                 confirmInfoCard.appendChild(infoCard).innerText = "Effectué !"
