@@ -139,8 +139,7 @@ function addToCart() {//addToCart
         }
         else if (newProduct.color != "" && displayAlertColor.getElementsByTagName("p").length != 0) {
             const colorMessageSvp = document.getElementById("colors")
-            colorMessageSvp.style.backgroundColor = "#3B3B3B"
-            colorMessageSvp.style.color = "white"
+            colorMessageSvp.removeAttribute("style")
             displayAlertColor.removeChild(alertColor)
         }
     }
@@ -164,8 +163,7 @@ function addToCart() {//addToCart
         }
         else if (newProduct.quantity != 0 && displayAlertQuantity.getElementsByTagName("p").length != 0) {
             const colorErrorQuantity = document.getElementById("quantity")
-            colorErrorQuantity.style.backgroundColor = "#3B3B3B"
-            colorErrorQuantity.style.color = "white"
+            colorErrorQuantity.removeAttribute("style")
             displayAlertQuantity.removeChild(alertQuantity)
         }
     }
@@ -182,6 +180,7 @@ function addToCart() {//addToCart
         localStorage.setItem("cart", JSON.stringify(productsInCart))
 
 //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+        document.getElementById("colors").removeAttribute("style")
         document.getElementById("colors").value = ""
         document.getElementById("quantity").value = 1
         let infoCard = document.createElement("p")
@@ -224,6 +223,7 @@ function addToCart() {//addToCart
                         localStorage.setItem("cart", JSON.stringify(productsInCart))
     
     //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+                        document.getElementById("colors").removeAttribute("style")
                         document.getElementById("colors").value = ""
                         document.getElementById("quantity").value = 1
                         let infoCard = document.createElement("p")
@@ -244,6 +244,7 @@ function addToCart() {//addToCart
                 localStorage.setItem("cart", JSON.stringify(productsInCart))
         
         //--Affichage pendant deux seconde de l'information 'Effecué !' après mise à jour du panier
+                document.getElementById("colors").removeAttribute("style")
                 document.getElementById("colors").value = ""
                 document.getElementById("quantity").value = 1
                 let infoCard = document.createElement("p")
