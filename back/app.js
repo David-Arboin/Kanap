@@ -20,4 +20,9 @@ app.use(express.json());
 
 app.use('/api/products', productRoutes);
 
+app.use(express.static(path.join(__dirname, '../front')))
+app.get('*', (req, res) => {
+res.sendFile(path.join(__dirname, '../front/html/index.html'))
+})
+
 module.exports = app;

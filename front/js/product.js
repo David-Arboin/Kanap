@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
 const urlSearchParams = new URLSearchParams(window.location.search)
 console.log("Récupération de l'URL de la page :", urlSearchParams)
@@ -46,7 +45,7 @@ const updateNumberProductInCart = () => {
 //********************Appel des données liées au produits de la page actuelle
 //--Méthode 1
   const fetchProduct = async () => {
-    const res = await fetch(`http://localhost:3000/api/products/${idProduct}`)
+    const res = await fetch(apiUrl + `/api/products/${idProduct}`)
     const dataProduct = await res.json()
     console.log("Données liées au produit de cette page :", dataProduct)
     return dataProduct
@@ -243,7 +242,7 @@ function addToCart() {//addToCart
 }
 updateNumberProductInCart()
 displayPageProduct()
-=======
+
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
 const urlSearchParams = new URLSearchParams(window.location.search)
 console.log("Récupération de l'URL de la page :", urlSearchParams)
@@ -297,7 +296,7 @@ const updateNumberProductInCart = () => {
  */
 //--Méthode 1
   const fetchProduct = async () => {
-    const res = await fetch(`http://localhost:3000/api/products/${idProduct}`)
+    const res = await fetch(apiUrl `/api/products/${idProduct}`)
     const dataProduct = await res.json()
     console.log("Données liées au produit de cette page :", dataProduct)
     return dataProduct
@@ -536,4 +535,4 @@ function addToCart() {//addToCart
 }
 updateNumberProductInCart()
 displayPageProduct()
->>>>>>> a5bff0dc74fce8481200e33f8577071aa2d1c260
+ a5bff0dc74fce8481200e33f8577071aa2d1c260

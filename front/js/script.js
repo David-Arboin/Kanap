@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 // Récupération des données de l'URL
 // Méthode 1
 const fetchProducts = async () => {
-    const res = await fetch("http://localhost:3000/api/products")
+    const res = await fetch(apiUrl + "/api/products")
     const productsInCard = await res.json()
     console.log("Liste des produits disponibles :", productsInCard)
     return productsInCard
@@ -33,7 +32,6 @@ const productsDisplay = async () => {
     .join("")/*Permet de supprimer l'apostrophe automatique*/
 }
 productsDisplay()
-=======
 /**
  * 
  * @returns Récupération des données de l'API
@@ -104,4 +102,4 @@ productsDisplay()
     .join("")/*Permet de supprimer l'apostrophe automatique*/
 //--}
 //--productsDisplay()
->>>>>>> a5bff0dc74fce8481200e33f8577071aa2d1c260
+a5bff0dc74fce8481200e33f8577071aa2d1c260
