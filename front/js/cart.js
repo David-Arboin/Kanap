@@ -1,3 +1,4 @@
+import apiUrl from "./config"
 <<<<<<< HEAD
 //--Récupération du panier
 let productsInCart = JSON.parse(localStorage.getItem("cart"))
@@ -319,7 +320,7 @@ const formValidateAndCheck = async (panierDisplay) => {
             console.log("Fiche du contact :", contact)
 
 //--Envoi de la commande sur le server
-            const sendOrderToServer01 = fetch("http://localhost:3000/api/products/order", {
+            const sendOrderToServer01 = fetch(`${apiUrl}/api/products/order`, {
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json"
@@ -407,7 +408,7 @@ if (productsInCart == null) {
 }
 else {
     const fetchProduct = productsInCart.map(product => {
-        return fetch(`http://localhost:3000/api/products/${product._id}`)
+        return fetch(`${apiUrl}/api/products/${product._id}`)
     })
 
     let productsInCartWithPrice = Promise.all(fetchProduct)
@@ -932,7 +933,7 @@ const formValidateAndCheck = async (panierDisplay) => {
             console.log("Fiche du contact :", contact)
 
 //--Envoi de la commande sur le server
-            const sendOrderToServer01 = fetch("http://localhost:3000/api/products/order", {
+            const sendOrderToServer01 = fetch(`${apiUrl}/api/products/order`, {
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json"

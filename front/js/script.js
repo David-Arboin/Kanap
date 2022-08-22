@@ -1,7 +1,8 @@
+import apiUrl from "./config"
 // Récupération des données de l'URL
 // Méthode 1
 const fetchProducts = async () => {
-    const res = await fetch(apiUrl + "/api/products")
+    const res = await fetch(`${apiUrl}/api/products`)
     const productsInCard = await res.json()
     console.log("Liste des produits disponibles :", productsInCard)
     return productsInCard
@@ -38,7 +39,7 @@ productsDisplay()
  */
 // Méthode 1
 const fetchProducts = async () => {
-    const res = await fetch("http://localhost:3000/api/products")
+    const res = await fetch(`${apiUrl}/api/products`)
     const productsAvailable = await res.json()
     console.log("Liste des produits disponibles :", productsAvailable)
     return productsAvailable

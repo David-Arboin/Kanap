@@ -1,3 +1,4 @@
+import apiUrl from "./config"
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
 const urlSearchParams = new URLSearchParams(window.location.search)
 console.log("Récupération de l'URL de la page :", urlSearchParams)
@@ -45,7 +46,7 @@ const updateNumberProductInCart = () => {
 //********************Appel des données liées au produits de la page actuelle
 //--Méthode 1
   const fetchProduct = async () => {
-    const res = await fetch(apiUrl + `/api/products/${idProduct}`)
+    const res = await fetch(`${apiUrl}/api/products/${idProduct}`)
     const dataProduct = await res.json()
     console.log("Données liées au produit de cette page :", dataProduct)
     return dataProduct
@@ -296,7 +297,7 @@ const updateNumberProductInCart = () => {
  */
 //--Méthode 1
   const fetchProduct = async () => {
-    const res = await fetch(apiUrl `/api/products/${idProduct}`)
+    const res = await fetch(`${apiUrl}/api/products/${idProduct}`)
     const dataProduct = await res.json()
     console.log("Données liées au produit de cette page :", dataProduct)
     return dataProduct
