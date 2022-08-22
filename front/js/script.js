@@ -1,8 +1,7 @@
-import apiUrl from "./config"
 // Récupération des données de l'URL
 // Méthode 1
-const fetchProducts = async () => {
-    const res = await fetch(`${apiUrl}/api/products`)
+let fetchProducts = async () => {
+    const res = await fetch(`https://site-de-vente-de-canape-back.herokuapp.com/api/products`)
     const productsInCard = await res.json()
     console.log("Liste des produits disponibles :", productsInCard)
     return productsInCard
@@ -38,8 +37,8 @@ productsDisplay()
  * @returns Récupération des données de l'API
  */
 // Méthode 1
-const fetchProducts = async () => {
-    const res = await fetch(`${apiUrl}/api/products`)
+fetchProducts = async () => {
+    const res = await fetch(`https://site-de-vente-de-canape-back.herokuapp.com/api/products`)
     const productsAvailable = await res.json()
     console.log("Liste des produits disponibles :", productsAvailable)
     return productsAvailable
@@ -58,7 +57,7 @@ const fetchProducts = async () => {
  * Implémentation des données dans la page
  */
 // Méthode 1 avec createElement
-const productsDisplay = async () => {
+productsDisplay = async () => {
     productsAvailable = await fetchProducts()
     let newProduct = document.getElementById("items")
 

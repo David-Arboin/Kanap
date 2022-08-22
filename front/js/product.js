@@ -1,4 +1,3 @@
-import apiUrl from "./config"
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
 const urlSearchParams = new URLSearchParams(window.location.search)
 console.log("Récupération de l'URL de la page :", urlSearchParams)
@@ -46,7 +45,7 @@ const updateNumberProductInCart = () => {
 //********************Appel des données liées au produits de la page actuelle
 //--Méthode 1
   const fetchProduct = async () => {
-    const res = await fetch(`${apiUrl}/api/products/${idProduct}`)
+    const res = await fetch(`https://site-de-vente-de-canape-back.herokuapp.com/api/products/${idProduct}`)
     const dataProduct = await res.json()
     console.log("Données liées au produit de cette page :", dataProduct)
     return dataProduct
@@ -245,18 +244,18 @@ updateNumberProductInCart()
 displayPageProduct()
 
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
-const urlSearchParams = new URLSearchParams(window.location.search)
+urlSearchParams = new URLSearchParams(window.location.search)
 console.log("Récupération de l'URL de la page :", urlSearchParams)
 
 //--Récupération de l'id du produit
-const idProduct = urlSearchParams.get("id");
+idProduct = urlSearchParams.get("id");
 console.log("L'id du produit est :", idProduct);
 
 /**
  * 
  * @returns Informations du panier : Quantité affichée à côté du mot panier dans le Header au moment de l'ouverture de la page
  */
-const updateNumberProductInCart = () => {
+updateNumberProductInCart = () => {
 
 //--Récupération du panier
     let productsInCart = JSON.parse(localStorage.getItem("cart"))
@@ -296,8 +295,8 @@ const updateNumberProductInCart = () => {
  * @returns Appel des données liées au produits de la page actuelle
  */
 //--Méthode 1
-  const fetchProduct = async () => {
-    const res = await fetch(`${apiUrl}/api/products/${idProduct}`)
+ fetchProduct = async () => {
+    const res = await fetch(`https://site-de-vente-de-canape-back.herokuapp.com/api/products/${idProduct}`)
     const dataProduct = await res.json()
     console.log("Données liées au produit de cette page :", dataProduct)
     return dataProduct
@@ -316,7 +315,7 @@ const updateNumberProductInCart = () => {
  * 
  * @returns Affichage des détails du produit
  */
-const displayPageProduct = async () => {
+displayPageProduct = async () => {
     dataProduct = await fetchProduct()
 
     let imgProduct = document.getElementsByClassName("item__img")[0].innerHTML = `<img src="${dataProduct.imageUrl}">`

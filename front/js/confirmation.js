@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //--Utilisation de l'interface URLSearchParams qui permet de travailler avec l'URL de la page active
 const urlSearchParams = new URLSearchParams(window.location.search);
 console.log("Récupération de l'URL de la page :", urlSearchParams);
@@ -20,7 +19,6 @@ displayOrderId.appendChild(thanks).innerHTML = "Merci et à bientôt !"
 localStorage.clear()
 
 
-=======
 /**
  * 
  * @returns Fonction unique de la page confirmation - Chaque bloc est expliqué
@@ -47,4 +45,4 @@ displayOrderId.appendChild(thanks).innerHTML = "Merci et à bientôt !"
 localStorage.clear()
 }
 order()
->>>>>>> a5bff0dc74fce8481200e33f8577071aa2d1c260
+a5bff0dc74fce8481200e33f8577071aa2d1c260

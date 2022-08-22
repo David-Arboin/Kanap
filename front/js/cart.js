@@ -1,5 +1,3 @@
-import apiUrl from "./config"
-<<<<<<< HEAD
 //--Récupération du panier
 let productsInCart = JSON.parse(localStorage.getItem("cart"))
 console.log("Produits présents dans le panier :", productsInCart)
@@ -117,7 +115,7 @@ const newTotalByNewQuantityByArrow = async (panierDisplay) => {
     productWhithNewQuantity()
 
     //--Recalcul du prix total du panier
-    let totalPriceByProduct = 0
+    totalPriceByProduct = 0
     let totalPrice = 0
     let totalQuantityByProduct = 0
     let totalQuantity = 0
@@ -320,7 +318,7 @@ const formValidateAndCheck = async (panierDisplay) => {
             console.log("Fiche du contact :", contact)
 
 //--Envoi de la commande sur le server
-            const sendOrderToServer01 = fetch(`${apiUrl}/api/products/order`, {
+            const sendOrderToServer01 = fetch(`https://site-de-vente-de-canape-back.herokuapp.com/api/products/order`, {
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json"
@@ -389,8 +387,8 @@ lastNameCheck()
 addressCheck()
 cityCheck()
 emailCheck()
-=======
-let productsInCart = JSON.parse(localStorage.getItem("cart"))
+
+productsInCart = JSON.parse(localStorage.getItem("cart"))
 
 /**
  * 
@@ -408,7 +406,7 @@ if (productsInCart == null) {
 }
 else {
     const fetchProduct = productsInCart.map(product => {
-        return fetch(`${apiUrl}/api/products/${product._id}`)
+        return fetch(`https://site-de-vente-de-canape-back.herokuapp.com/api/products/${product._id}`)
     })
 
     let productsInCartWithPrice = Promise.all(fetchProduct)
@@ -564,10 +562,10 @@ function panierDisplay () {
 }
 
 //****************Affichage et calcul du nombre d'aricles et du prix total lors de l'ouverture de la page
-let totalPriceByProduct = 0
-let totalPrice = 0
-let totalCopyByProduct = 0
-let totalProducts = 0
+totalPriceByProduct = 0
+totalPrice = 0
+totalCopyByProduct = 0
+totalProducts = 0
 
 /**
  * A
@@ -598,7 +596,7 @@ function displayTotalPrice () {
  * 
  * @returns Mise à jour du nombre d'article et du prix total lors de la saisie d'une nouvelle quantité depuis les petites flèches
  */ 
-const newTotalByNewQuantityByArrow = () => {
+newTotalByNewQuantityByArrow = () => {
 
 
 //--Récupérartion de toutes les quantités
@@ -695,7 +693,7 @@ const newTotalByNewQuantityByArrow = () => {
  * 
  * @returns Suppression d'un produit
  */ 
-const removeProduct = () => {
+removeProduct = () => {
 //--Récupération des données du panier
 /*     let productsInCart = JSON.parse(localStorage.getItem("cart")) */
 console.log(productsInCart)
@@ -877,7 +875,7 @@ function emailCheck() {
  * 
  * @param {Conditions d'acceptation du formulaire} panierDisplay 
  */
-const formValidateAndCheck = async (panierDisplay) => {
+formValidateAndCheck = async (panierDisplay) => {
     await panierDisplay
 
     let form = document.getElementsByClassName("cart__order__form")[0]
@@ -933,7 +931,7 @@ const formValidateAndCheck = async (panierDisplay) => {
             console.log("Fiche du contact :", contact)
 
 //--Envoi de la commande sur le server
-            const sendOrderToServer01 = fetch(`${apiUrl}/api/products/order`, {
+            const sendOrderToServer01 = fetch(`https://site-de-vente-de-canape-back.herokuapp.com/api/products/order`, {
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json"
@@ -1000,5 +998,5 @@ lastNameCheck()
 addressCheck()
 cityCheck()
 emailCheck()
->>>>>>> a5bff0dc74fce8481200e33f8577071aa2d1c260
+a5bff0dc74fce8481200e33f8577071aa2d1c260
 formValidateAndCheck()
